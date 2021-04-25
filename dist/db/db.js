@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Command Test
+// DB Main
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -38,26 +38,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// Export Module
-function pong(mgs, table) {
-    var _a;
+// Import Sequelize
+var sequelize_1 = __importDefault(require("sequelize"));
+// Import ENV
+var env_1 = require("../env");
+// Import Module
+var crew_model_1 = __importDefault(require("./models/Crews/crew_model"));
+var user_model_1 = __importDefault(require("./models/Users/user_model"));
+// Function for load DB
+var load_db = function () {
     return __awaiter(this, void 0, void 0, function () {
-        var test;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0: return [4 /*yield*/, table.crew_table.findOne({ where: { crewId: "734021779638714439" } })];
-                case 1:
-                    test = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
-                    // Check Null
-                    if (!test)
-                        return [2 /*return*/];
-                    // Funziona!
-                    console.log(test.name);
-                    return [2 /*return*/];
-            }
+        return __generator(this, function (_a) {
+            // Return Promise
+            return [2 /*return*/, new Promise(function (resolve, rejects) {
+                    // ENV
+                    var env = env_1.env_var();
+                    // Check Undefind
+                    if (!env.database || !env.user_db || !env.password_db || !env.host)
+                        return;
+                    // Define Sequelize & Pass Credential
+                    var sequelize = new sequelize_1.default.Sequelize(env.database, env.user_db, env.password_db, {
+                        host: env.host,
+                        dialect: 'postgres',
+                        logging: false,
+                        define: {
+                            timestamps: false
+                        }
+                    });
+                    // Connect to DB
+                    sequelize.authenticate()
+                        .then(function () {
+                        // Console Log on Connection
+                        console.log('[DB] Connected to database');
+                        // Define Model
+                        var crew_table = sequelize.define(crew_model_1.default.name, crew_model_1.default.model);
+                        var user_table = sequelize.define(user_model_1.default.name, user_model_1.default.model);
+                        // Export Table
+                        var table = {
+                            crew_table: crew_table,
+                            user_table: user_table
+                        };
+                        // Resolve Sequelize        
+                        resolve(table);
+                    })
+                        // Catch Error
+                        .catch(function (err) { return rejects(err); });
+                })];
         });
     });
-}
-// Export Command
-exports.default = pong;
+};
+// Export Function
+exports.default = load_db;

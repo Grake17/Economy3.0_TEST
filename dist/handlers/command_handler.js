@@ -66,24 +66,31 @@ var config = __importStar(require("../config.json"));
 // Import Commands
 var commands_list_1 = __importDefault(require("../commands/commands_list"));
 // Exports Module Command
-function commandHandler(mgs) {
+var commandHandler = function (mgs, env, table) {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
         var args, command;
-        return __generator(this, function (_a) {
+        return __generator(this, function (_b) {
             // Check Channel
             if (mgs.channel.id !== config.channel_mail)
                 return [2 /*return*/];
-            args = mgs.content.split(" ");
+            args = mgs.content.split(' ');
             command = args.shift();
+            // Check command if undefind
+            if (!command)
+                return [2 /*return*/];
             // Test Prefix
-            if ((command === null || command === void 0 ? void 0 : command.charAt(0)) !== process.env.PREFIX)
+            if ((command === null || command === void 0 ? void 0 : command.charAt(0)) !== env.prefix)
                 return [2 /*return*/];
             // Remove Prefix
             command = command === null || command === void 0 ? void 0 : command.substring(1);
+            // Log Command for test
+            console.log(command);
             // Exec Command
-            commands_list_1.default[command](mgs);
+            (_a = commands_list_1.default[command]) === null || _a === void 0 ? void 0 : _a.call(commands_list_1.default, mgs, table);
             return [2 /*return*/];
         });
     });
-}
+};
+// Exports Handler
 exports.default = commandHandler;

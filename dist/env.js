@@ -5,11 +5,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.env_var = void 0;
 // Import DotEnv
-require("dotenv").config();
+require('dotenv').config();
 // Define Variables
 var variables = [
-    "TOKEN",
-    "PREFIX",
+    'TOKEN',
+    'PREFIX',
+    'DATABASE',
+    "USERNAME",
+    "PASSWORD",
+    "HOST"
 ];
 // Export Function
 function env_var() {
@@ -20,12 +24,16 @@ function env_var() {
     // Check Lenght
     if (outvar.length) {
         // Error for missing Env Variables
-        throw new Error("Missing Env Variables: " + outvar.join(", "));
+        throw new Error("Missing Env Variables: " + outvar.join(', '));
     }
     // Return Env if success
     return {
         token: process.env.TOKEN,
-        prefix: process.env.PREFIX, // Process Prefix
+        prefix: process.env.PREFIX,
+        database: process.env.DATABASE,
+        user_db: process.env.USER_DB,
+        password_db: process.env.PASSWORD,
+        host: process.env.HOST // Process HOST DB
     };
 }
 exports.env_var = env_var;
