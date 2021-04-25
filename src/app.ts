@@ -29,7 +29,7 @@ try {
 
       // Sync Table
       table.crew_table.sync();
-      table.user_table.sync();
+      table.user_table.sync();     
       
       // Bot on
       client.on('ready', () => console.log(`${client.user?.username} is ready!`));
