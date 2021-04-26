@@ -1,27 +1,7 @@
 "use strict";
-/* eslint-disable camelcase */
 // ===================================================
-// Economy 3.0
+// Command Portafoglio
 // ===================================================
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -62,37 +42,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Discord.js
-var Discord = __importStar(require("discord.js"));
-// Import DB
-var db_1 = __importDefault(require("./db/db"));
-// import .env
-var env_1 = require("./env");
-// Import Handlers
-var command_handler_1 = __importDefault(require("./handlers/command_handler"));
-// Error Handler
-try {
-    // Create Client
-    var client_1 = new Discord.Client();
-    // .env
-    var env_2 = env_1.env_var();
-    // Load DB Return Promise for check Error
-    db_1.default()
-        .then(function (table) {
-        // Sync Tables
-        table.crew_table.sync();
-        table.user_table.sync();
-        // Bot on
-        client_1.on('ready', function () { var _a; return console.log(((_a = client_1.user) === null || _a === void 0 ? void 0 : _a.username) + " is ready!"); });
-        // Command Handler
-        client_1.on('message', function (message) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/, command_handler_1.default(message, env_2, table)];
-        }); }); });
-        // Client Login
-        client_1.login(env_2.token);
-    }).catch(function (err) { return console.error(err); });
-}
-catch (err) { // Catch Error
-    // Console Log Error
-    console.error(err);
+// Import Discord
+var discord_js_1 = require("discord.js");
+// Import Utilis
+var getUserDB_1 = __importDefault(require("../../utility/getUserDB"));
+// Portafoglio Function
+function portafoglio(mgs, table) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, result, data_user, embed;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    user = mgs.author;
+                    return [4 /*yield*/, getUserDB_1.default(user.id, table)];
+                case 1:
+                    result = _a.sent();
+                    data_user = result === null || result === void 0 ? void 0 : result.get();
+                    embed = new discord_js_1.MessageEmbed()
+                        .setTitle("Portafoglio " + user.username)
+                        .setDescription("Saldo: " + (data_user === null || data_user === void 0 ? void 0 : data_user.saldo));
+                    return [2 /*return*/];
+            }
+        });
+    });
 }

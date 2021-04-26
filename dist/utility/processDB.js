@@ -1,5 +1,3 @@
-"use strict";
 // ===================================================
-// User Attribute
+// Return DB Object from DB
 // ===================================================
-Object.defineProperty(exports, "__esModule", { value: true });

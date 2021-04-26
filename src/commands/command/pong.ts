@@ -4,8 +4,6 @@
 
 // Import Discord.js
 import { Message, MessageEmbed } from 'discord.js';
-// Import Models
-import Crew_Model from "../../db/models/Crews/crew_attribute";
 // Import Tables Interface
 import tables from '../../db/table_interface';
 

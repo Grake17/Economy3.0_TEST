@@ -27,7 +27,7 @@ try {
   load_db()
     .then(table => {   
 
-      // Sync Table
+      // Sync Tables
       table.crew_table.sync();
       table.user_table.sync();     
       
