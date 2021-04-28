@@ -3,9 +3,14 @@
 // ===================================================
 
 // Import Table
-import tables from "../db/table_interface";
+import tables from "../../db/table_interface";
+// Import Utility
+import regUser from "./regUser";
+
 // Export Function
 export default async function getUserDB(id: string, table: tables) {
-    // Return Query
-    return await table.user_table.findOne({ where: { userId: id } });
+  // Test User Function
+  await regUser(id, table);
+  // Return Query
+  return await table.user_table.findOne({ where: { userId: id } });
 }

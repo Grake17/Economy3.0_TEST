@@ -1,21 +1,24 @@
-/* eslint-disable camelcase */
 // ===================================================
 // Exports Command
 // ===================================================
 
-// Import Sequelize
-import { ModelCtor, Model } from 'sequelize/types'; 
 // Import Discord.js
 import { Message, MessageEmbed } from 'discord.js';
-// Import Models
-import Crew_Model from "../db/models/Crews/crew_attribute";
-// Command Test
-import pong from './command/pong' // Import Pong
+// Import Table Interface
 import tables from '../db/table_interface';
+// Command Test
+import pong from './command/pong'; // Import Pong
+import pay from './economy_command/pay'; // Import Pay
+import portafoglio from './economy_command/portafoglio'; // Import Portafoglio
+import registragt from './economy_command/registragt'; // Import RegistraGT
+
 
 // Create Commands List
-const command_list: Record<string, ((mgs : Message, table: tables) => Promise<void>) | undefined> = {
-  pong: pong
+const command_list: Record<string, ((mgs : Message, table: tables, args: string[]) => Promise<void>) | undefined> = {
+  pong: pong,
+  portafoglio: portafoglio,
+  registragt: registragt,
+  pay: pay
 }
 
 // Exports

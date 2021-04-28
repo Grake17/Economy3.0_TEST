@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// DB Main
+// Register User Function
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -38,54 +38,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Module
-var crew_model_1 = __importDefault(require("./models/Crews/crew_model"));
-var user_model_1 = __importDefault(require("./models/Users/user_model"));
-var sequelize_1 = __importDefault(require("./sequelize"));
-// Function for load DB
-var load_db = function () {
+// Export Function
+function regUser(id, table) {
     return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
+        var user;
         return __generator(this, function (_a) {
-            // Return Promise
-            return [2 /*return*/, new Promise(function (resolve, rejects) { return __awaiter(_this, void 0, void 0, function () {
-                    var sequelize;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, sequelize_1.default()];
-                            case 1:
-                                sequelize = _a.sent();
-                                if (!sequelize)
-                                    return [2 /*return*/, rejects()];
-                                // Connect to DB
-                                sequelize
-                                    .authenticate()
-                                    .then(function () {
-                                    // Console Log on Connection
-                                    console.log("[DB] Connected to database");
-                                    // Define Model
-                                    var crew_table = sequelize.define(crew_model_1.default.name, crew_model_1.default.model);
-                                    var user_table = sequelize.define(user_model_1.default.name, user_model_1.default.model);
-                                    // Export Table
-                                    var table = {
-                                        crew_table: crew_table,
-                                        user_table: user_table,
-                                    };
-                                    // Resolve Sequelize
-                                    resolve(table);
-                                })
-                                    // Catch Error
-                                    .catch(function (err) { return rejects(err); });
-                                return [2 /*return*/];
-                        }
-                    });
-                }); })];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, table.user_table.findOne({ where: { userId: id } })];
+                case 1:
+                    user = _a.sent();
+                    if (!(user == null)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, table.user_table.create({ userId: id })];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3: return [2 /*return*/];
+            }
         });
     });
-};
-// Export Function
-exports.default = load_db;
+}
+exports.default = regUser;

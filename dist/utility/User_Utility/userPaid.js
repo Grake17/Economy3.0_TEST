@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// DB Main
+// User Paid Function
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -42,50 +42,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Module
-var crew_model_1 = __importDefault(require("./models/Crews/crew_model"));
-var user_model_1 = __importDefault(require("./models/Users/user_model"));
-var sequelize_1 = __importDefault(require("./sequelize"));
-// Function for load DB
-var load_db = function () {
+// Import Get USer from DB
+var getUserDB_1 = __importDefault(require("./getUserDB"));
+// Export Function
+function payUser(id, table, payment) {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            // Return Promise
-            return [2 /*return*/, new Promise(function (resolve, rejects) { return __awaiter(_this, void 0, void 0, function () {
-                    var sequelize;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, sequelize_1.default()];
-                            case 1:
-                                sequelize = _a.sent();
-                                if (!sequelize)
-                                    return [2 /*return*/, rejects()];
-                                // Connect to DB
-                                sequelize
-                                    .authenticate()
-                                    .then(function () {
-                                    // Console Log on Connection
-                                    console.log("[DB] Connected to database");
-                                    // Define Model
-                                    var crew_table = sequelize.define(crew_model_1.default.name, crew_model_1.default.model);
-                                    var user_table = sequelize.define(user_model_1.default.name, user_model_1.default.model);
-                                    // Export Table
-                                    var table = {
-                                        crew_table: crew_table,
-                                        user_table: user_table,
-                                    };
-                                    // Resolve Sequelize
-                                    resolve(table);
-                                })
-                                    // Catch Error
-                                    .catch(function (err) { return rejects(err); });
-                                return [2 /*return*/];
-                        }
-                    });
-                }); })];
+        var paid_data, err_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, getUserDB_1.default(id, table)];
+                case 1:
+                    paid_data = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
+                    // Test Value
+                    if (!(paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo))
+                        return [2 /*return*/, paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo];
+                    // Make transition
+                    return [4 /*yield*/, table.user_table.update({ saldo: paid_data.saldo + payment }, { where: { userId: id } })];
+                case 2:
+                    // Make transition
+                    _b.sent();
+                    // Return !undefined if command go well
+                    return [2 /*return*/, paid_data.saldo];
+                case 3:
+                    err_1 = _b.sent();
+                    // Return Err
+                    return [2 /*return*/, err_1];
+                case 4: return [2 /*return*/];
+            }
         });
     });
-};
-// Export Function
-exports.default = load_db;
+}
+exports.default = payUser;

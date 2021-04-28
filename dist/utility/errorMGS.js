@@ -1,7 +1,26 @@
 "use strict";
 // ===================================================
-// DB Main
+// Error Function
 // ===================================================
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,54 +57,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Module
-var crew_model_1 = __importDefault(require("./models/Crews/crew_model"));
-var user_model_1 = __importDefault(require("./models/Users/user_model"));
-var sequelize_1 = __importDefault(require("./sequelize"));
-// Function for load DB
-var load_db = function () {
+// Import Config
+var config = __importStar(require("../config.json"));
+// Import Discord
+var discord_js_1 = require("discord.js");
+// Export Function
+function errorMGS(mgs, err) {
     return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
+        var errEmbed;
         return __generator(this, function (_a) {
-            // Return Promise
-            return [2 /*return*/, new Promise(function (resolve, rejects) { return __awaiter(_this, void 0, void 0, function () {
-                    var sequelize;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, sequelize_1.default()];
-                            case 1:
-                                sequelize = _a.sent();
-                                if (!sequelize)
-                                    return [2 /*return*/, rejects()];
-                                // Connect to DB
-                                sequelize
-                                    .authenticate()
-                                    .then(function () {
-                                    // Console Log on Connection
-                                    console.log("[DB] Connected to database");
-                                    // Define Model
-                                    var crew_table = sequelize.define(crew_model_1.default.name, crew_model_1.default.model);
-                                    var user_table = sequelize.define(user_model_1.default.name, user_model_1.default.model);
-                                    // Export Table
-                                    var table = {
-                                        crew_table: crew_table,
-                                        user_table: user_table,
-                                    };
-                                    // Resolve Sequelize
-                                    resolve(table);
-                                })
-                                    // Catch Error
-                                    .catch(function (err) { return rejects(err); });
-                                return [2 /*return*/];
-                        }
-                    });
-                }); })];
+            errEmbed = new discord_js_1.MessageEmbed()
+                .setAuthor("**Economy v3.67")
+                .setTitle("Error during Execution")
+                .setColor(config.economy_color)
+                .setDescription("L'organizzazione ci ha trovato: **El PSY CONGROO**");
+            // Send Error Embed
+            mgs.channel.send(errEmbed);
+            // Console Log Error
+            console.log(err);
+            return [2 /*return*/];
         });
     });
-};
-// Export Function
-exports.default = load_db;
+}
+exports.default = errorMGS;

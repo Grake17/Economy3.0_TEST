@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// DB Main
+// Instance Sequelize Export
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -42,50 +42,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Module
-var crew_model_1 = __importDefault(require("./models/Crews/crew_model"));
-var user_model_1 = __importDefault(require("./models/Users/user_model"));
-var sequelize_1 = __importDefault(require("./sequelize"));
-// Function for load DB
-var load_db = function () {
+// Import Sequelize
+var sequelize_1 = __importDefault(require("sequelize"));
+// Import ENV
+var env_1 = require("../env");
+// Export Function
+function imp_seq() {
     return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
+        var env, sequelize;
         return __generator(this, function (_a) {
-            // Return Promise
-            return [2 /*return*/, new Promise(function (resolve, rejects) { return __awaiter(_this, void 0, void 0, function () {
-                    var sequelize;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, sequelize_1.default()];
-                            case 1:
-                                sequelize = _a.sent();
-                                if (!sequelize)
-                                    return [2 /*return*/, rejects()];
-                                // Connect to DB
-                                sequelize
-                                    .authenticate()
-                                    .then(function () {
-                                    // Console Log on Connection
-                                    console.log("[DB] Connected to database");
-                                    // Define Model
-                                    var crew_table = sequelize.define(crew_model_1.default.name, crew_model_1.default.model);
-                                    var user_table = sequelize.define(user_model_1.default.name, user_model_1.default.model);
-                                    // Export Table
-                                    var table = {
-                                        crew_table: crew_table,
-                                        user_table: user_table,
-                                    };
-                                    // Resolve Sequelize
-                                    resolve(table);
-                                })
-                                    // Catch Error
-                                    .catch(function (err) { return rejects(err); });
-                                return [2 /*return*/];
-                        }
-                    });
-                }); })];
+            env = env_1.env_var();
+            // Check Undefind
+            if (!env.database || !env.user_db || !env.password_db || !env.host)
+                return [2 /*return*/];
+            sequelize = new sequelize_1.default.Sequelize(env.database, env.user_db, env.password_db, {
+                host: env.host,
+                dialect: "postgres",
+                logging: false,
+                define: {
+                    timestamps: false,
+                },
+            });
+            // Return Sequelize
+            return [2 /*return*/, sequelize];
         });
     });
-};
-// Export Function
-exports.default = load_db;
+}
+exports.default = imp_seq;

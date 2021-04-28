@@ -13,79 +13,79 @@ var users = {
     userId: {
         type: sequelize_1.default.STRING,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
     },
     gamerTag: {
         type: sequelize_1.default.STRING,
         defaultValue: null,
-        unique: true
+        unique: true,
     },
     guest: {
         type: sequelize_1.default.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     ciurmaId: {
         type: sequelize_1.default.STRING,
-        defaultValue: null
+        defaultValue: null,
     },
     saldo: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     saldoDepositatoTot: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     saldoDepositatoPar: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     guadagnoMensile: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     pirataLeggendario: {
         type: sequelize_1.default.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     guardianoAthena: {
         type: sequelize_1.default.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     dataEntrataCiurma: {
         type: sequelize_1.default.DATE,
-        defaultValue: null
+        defaultValue: null,
     },
     dataEntrataVoc: {
         type: sequelize_1.default.STRING,
-        defaultValue: null
+        defaultValue: null,
     },
     bannato: {
         type: sequelize_1.default.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     discordlevel: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     gamelevel: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     chiavi: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     dateGuest: {
         type: sequelize_1.default.DATE,
-        defaultValue: null
+        defaultValue: null,
     },
     guestTime: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
-    }
+        defaultValue: 0,
+    },
 };
 // Models
-var users_model = { name: 'crews', model: users };
+var users_model = { name: "users", model: users };
 // Export Model
 exports.default = users_model;

@@ -42,14 +42,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Import Config.JSON
+var config_json_1 = require("../../config.json");
 // Import Discord
 var discord_js_1 = require("discord.js");
 // Import Utilis
-var getUserDB_1 = __importDefault(require("../../utility/getUserDB"));
+var getUserDB_1 = __importDefault(require("../../utility/User_Utility/getUserDB"));
 // Portafoglio Function
 function portafoglio(mgs, table) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, result, data_user, embed;
+        var user, result, data_user, myContent, embed;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -58,11 +60,26 @@ function portafoglio(mgs, table) {
                 case 1:
                     result = _a.sent();
                     data_user = result === null || result === void 0 ? void 0 : result.get();
+                    // Console Log For Test
+                    console.log(data_user);
+                    myContent = [
+                        "\u25FE **Utente**: <@!" + user.id + ">",
+                        "\u25FE **Talleri**: " + (data_user === null || data_user === void 0 ? void 0 : data_user.saldo),
+                        "\u25FE **Talleri depositati totali**: " + (data_user === null || data_user === void 0 ? void 0 : data_user.saldoDepositatoTot),
+                    ].join("\n");
+                    // Check User Crew
+                    if (!(data_user === null || data_user === void 0 ? void 0 : data_user.ciurmaId))
+                        myContent += "\n\u25FE **Talleri depositati in <@&" + (data_user === null || data_user === void 0 ? void 0 : data_user.ciurmaId) + ">**: " + (data_user === null || data_user === void 0 ? void 0 : data_user.saldoDepositatoPar);
                     embed = new discord_js_1.MessageEmbed()
-                        .setTitle("Portafoglio " + user.username)
-                        .setDescription("Saldo: " + (data_user === null || data_user === void 0 ? void 0 : data_user.saldo));
+                        .setAuthor("Economy 3.67")
+                        .setTitle("Portafoglio Utente")
+                        .setColor(config_json_1.economy_color)
+                        .setDescription("" + myContent);
+                    // Send Message
+                    mgs.channel.send(embed);
                     return [2 /*return*/];
             }
         });
     });
 }
+exports.default = portafoglio;
