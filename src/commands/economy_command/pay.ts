@@ -76,9 +76,10 @@ async function payUser(
       // Send Message
       mgs.channel.send(embed);
     }).catch(async () => await t.rollback());
-    
-  } catch (e) {
-    console.log(e);
+    // Catch for Error
+  } catch (err) {
+    // Message Error
+    errorMGS(mgs, err);
   }
 
   // // Function Paid

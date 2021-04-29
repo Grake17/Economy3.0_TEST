@@ -83,7 +83,7 @@ exports.default = pay;
 // Function Tag User
 function payUser(paid_id, payer_id, table, payment, mgs) {
     return __awaiter(this, void 0, void 0, function () {
-        var sequelize, t_1, paid_result_1, pay_result_1, e_1;
+        var sequelize, t_1, paid_result_1, pay_result_1, err_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -128,8 +128,9 @@ function payUser(paid_id, payer_id, table, payment, mgs) {
                     }); }); });
                     return [3 /*break*/, 7];
                 case 6:
-                    e_1 = _a.sent();
-                    console.log(e_1);
+                    err_1 = _a.sent();
+                    // Message Error
+                    errorMGS_1.default(mgs, err_1);
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/];
             }
