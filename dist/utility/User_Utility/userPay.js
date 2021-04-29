@@ -42,9 +42,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Import Get User Function
 var getUserDB_1 = __importDefault(require("./getUserDB"));
 // Export Function
-function userPay(id, table, payment) {
+function userPay(id, table, payment, transaction) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
         var payer_data, err_1;
@@ -59,7 +60,7 @@ function userPay(id, table, payment) {
                     if (!(payer_data === null || payer_data === void 0 ? void 0 : payer_data.saldo) || payer_data.saldo < payment)
                         return [2 /*return*/, undefined];
                     // Make Transition
-                    return [4 /*yield*/, table.user_table.update({ saldo: payer_data.saldo - payment }, { where: { userId: id } })];
+                    return [4 /*yield*/, table.user_table.update({ saldo: payer_data.saldo - payment }, { where: { userId: id }, transaction: transaction })];
                 case 2:
                     // Make Transition
                     _b.sent();

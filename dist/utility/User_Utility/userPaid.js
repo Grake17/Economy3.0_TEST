@@ -45,7 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Import Get USer from DB
 var getUserDB_1 = __importDefault(require("./getUserDB"));
 // Export Function
-function payUser(id, table, payment) {
+function payUser(id, table, payment, transaction) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
         var paid_data, err_1;
@@ -60,7 +60,7 @@ function payUser(id, table, payment) {
                     if (!(paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo))
                         return [2 /*return*/, paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo];
                     // Make transition
-                    return [4 /*yield*/, table.user_table.update({ saldo: paid_data.saldo + payment }, { where: { userId: id } })];
+                    return [4 /*yield*/, table.user_table.update({ saldo: paid_data.saldo + payment }, { where: { userId: id }, transaction: transaction })];
                 case 2:
                     // Make transition
                     _b.sent();

@@ -42,8 +42,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Import Discord
+var discord_js_1 = require("discord.js");
 // Message Invalid Function
 var invalideCMD_1 = __importDefault(require("../../utility/invalideCMD"));
+// Import Config
+var config_json_1 = require("../../config.json");
 // Import User Paid
 var userPaid_1 = __importDefault(require("../../utility/User_Utility/userPaid"));
 // import User Paid
@@ -79,7 +83,7 @@ exports.default = pay;
 // Function Tag User
 function payUser(paid_id, payer_id, table, payment, mgs) {
     return __awaiter(this, void 0, void 0, function () {
-        var sequelize;
+        var sequelize, t_1, paid_result_1, pay_result_1, e_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -89,26 +93,45 @@ function payUser(paid_id, payer_id, table, payment, mgs) {
                     // Test if undefind
                     if (!sequelize)
                         return [2 /*return*/, errorMGS_1.default(mgs, "Sequelize load")];
-                    // Try Transaction
-                    try {
-                        sequelize.transaction(function (transaction) { return __awaiter(_this, void 0, void 0, function () {
-                            var paid_result, pay_result;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, userPaid_1.default(paid_id, table, payment, transaction)];
-                                    case 1:
-                                        paid_result = _a.sent();
-                                        return [4 /*yield*/, userPay_1.default(payer_id, table, payment, transaction)];
-                                    case 2:
-                                        pay_result = _a.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); });
-                    }
-                    catch (e) {
-                    }
-                    return [2 /*return*/];
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 6, , 7]);
+                    return [4 /*yield*/, sequelize.transaction()];
+                case 3:
+                    t_1 = _a.sent();
+                    return [4 /*yield*/, userPaid_1.default(paid_id, table, payment, t_1)];
+                case 4:
+                    paid_result_1 = _a.sent();
+                    return [4 /*yield*/, userPay_1.default(payer_id, table, payment, t_1)];
+                case 5:
+                    pay_result_1 = _a.sent();
+                    // Test Result
+                    t_1.commit().then(function () {
+                        var _a, _b, _c, _d;
+                        // Check if some value null
+                        if (!paid_result_1 || !pay_result_1)
+                            return invalideCMD_1.default(mgs);
+                        // Embed For Response
+                        var embed = new discord_js_1.MessageEmbed()
+                            .setAuthor(config_json_1.author_name)
+                            .setDescription("Transazione Eseguita!")
+                            .addField("Pagante: " + ((_b = (_a = mgs.guild) === null || _a === void 0 ? void 0 : _a.members.cache.get(payer_id)) === null || _b === void 0 ? void 0 : _b.user.username), pay_result_1 + " ----> " + (pay_result_1 - payment))
+                            .addField("Ricevente: " + ((_d = (_c = mgs.guild) === null || _c === void 0 ? void 0 : _c.members.cache.get(paid_id)) === null || _d === void 0 ? void 0 : _d.user.username), paid_result_1 + " -----> " + (paid_result_1 + payment))
+                            .setColor(config_json_1.economy_color);
+                        // Send Message
+                        mgs.channel.send(embed);
+                    }).catch(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, t_1.rollback()];
+                            case 1: return [2 /*return*/, _a.sent()];
+                        }
+                    }); }); });
+                    return [3 /*break*/, 7];
+                case 6:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     });

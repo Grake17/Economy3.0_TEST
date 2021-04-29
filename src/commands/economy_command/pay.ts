@@ -51,40 +51,41 @@ async function payUser(
   if (!sequelize) return errorMGS(mgs, "Sequelize load");
   // Try Transaction
   try {
-    sequelize.transaction(async transaction => {
-      // Function Paid
-      const paid_result = await userPaid(paid_id, table, payment, transaction);
-      // Function Pay
-      const pay_result = await userPay(payer_id, table, payment, transaction);
-    })
-    
+    const t = await sequelize.transaction();
+    // Function Paid
+    const paid_result = await userPaid(paid_id, table, payment, t);
+    // Function Pay
+    const pay_result = await userPay(payer_id, table, payment, t);
+    // Test Result
+    t.commit().then(() => {
+      // Check if some value null
+      if (!paid_result || !pay_result) return invalidCommand(mgs);
+      // Embed For Response
+      const embed = new MessageEmbed()
+        .setAuthor(author_name)
+        .setDescription(`Transazione Eseguita!`)
+        .addField(
+          `Pagante: ${mgs.guild?.members.cache.get(payer_id)?.user.username}`,
+          `${pay_result} ----> ${pay_result - payment}`
+        )
+        .addField(
+          `Ricevente: ${mgs.guild?.members.cache.get(paid_id)?.user.username}`,
+          `${paid_result} -----> ${paid_result + payment}`
+        )
+        .setColor(economy_color);
+      // Send Message
+      mgs.channel.send(embed);
+    }).catch(async () => await t.rollback());
     
   } catch (e) {
+    console.log(e);
+  }
 
-  } 
-  
   // // Function Paid
   // const paid_result = await userPaid(paid_id, table, payment);
   // // Function Pay
   // const pay_result = await userPay(payer_id, table, payment);
   // console.log(pay_result, paid_result);
-  // // Test Result
-  // if (!paid_result || !pay_result) return invalidCommand(mgs);
-  // // Embed For Response
-  // const embed = new MessageEmbed()
-  //   .setAuthor(author_name)
-  //   .setDescription(`Transazione Eseguita!`)
-  //   .addField(
-  //     `Pagante: ${mgs.guild?.members.cache.get(payer_id)?.user.username}`,
-  //     `${pay_result} ----> ${pay_result - payment}`
-  //   )
-  //   .addField(
-  //     `Ricevente: ${mgs.guild?.members.cache.get(paid_id)?.user.username}`,
-  //     `${paid_result} -----> ${paid_result + payment}`
-  //   )
-  //   .setColor(economy_color);
-  // // Send Message
-  // mgs.channel.send(embed);
 }
 
 // Function Tag Crew

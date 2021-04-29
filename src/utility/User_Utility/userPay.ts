@@ -2,16 +2,20 @@
 // Pay User Function
 // ===================================================
 
+// Import Taransaction Interface
+import { Transaction } from "sequelize/types";
 // Import Table Interface
 import tables from "../../db/table_interface";
+// Import Get User Function
 import getUserDB from "./getUserDB";
 
 // Export Function
 export default async function userPay(
   id: string,
   table: tables,
-  payment: number
-): Promise<number | undefined> {
+  payment: number,
+  transaction: Transaction
+) {
   // Try Catch for Error
   try {
     // Get Payer Data
@@ -22,7 +26,7 @@ export default async function userPay(
     // Make Transition
     await table.user_table.update(
       { saldo: payer_data.saldo - payment },
-      { where: { userId: id } }
+      { where: { userId: id }, transaction: transaction},
     );
     // Return !undefined if command go well
     return payer_data.saldo;
