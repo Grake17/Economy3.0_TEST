@@ -17,7 +17,7 @@ export default async function userPay(
   transaction: Transaction
 ) {
   // Try Catch for Error
-  try {
+  //try {
     // Get Payer Data
     const payer_data = (await getUserDB(id, table))?.get();
     // Test Value
@@ -31,8 +31,8 @@ export default async function userPay(
     // Return !undefined if command go well
     return payer_data.saldo;
     //Catch Error
-  } catch (err) {
-    // Return Err
-    return err;
-  }
+  // } catch (err) {
+  //   // Return Err
+  //   return err;
+  // }
 }

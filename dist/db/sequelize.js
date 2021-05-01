@@ -46,15 +46,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var sequelize_1 = __importDefault(require("sequelize"));
 // Import ENV
 var env_1 = require("../env");
+// Sequelize
+var sequelize = null;
 // Export Function
 function imp_seq() {
     return __awaiter(this, void 0, void 0, function () {
-        var env, sequelize;
+        var env;
         return __generator(this, function (_a) {
             env = env_1.env_var();
             // Check Undefind
             if (!env.database || !env.user_db || !env.password_db || !env.host)
                 return [2 /*return*/];
+            if (sequelize) {
+                return [2 /*return*/, sequelize];
+            }
+            // Define Sequelize & Pass Credential
             sequelize = new sequelize_1.default.Sequelize(env.database, env.user_db, env.password_db, {
                 host: env.host,
                 dialect: "postgres",

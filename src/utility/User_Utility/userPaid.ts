@@ -17,11 +17,12 @@ export default async function payUser(
   transaction: Transaction
 ) {
   // Try Catch for Error
-  try {
+  //try {
     // Get paidr Data
     const paid_data = (await getUserDB(id, table))?.get();
+    console.log(paid_data?.saldo == undefined)
     // Test Value
-    if (!paid_data?.saldo) return paid_data?.saldo;
+    if (paid_data?.saldo == undefined) return paid_data?.saldo;
     // Make transition
     await table.user_table.update(
       { saldo: paid_data.saldo + payment },
@@ -30,8 +31,8 @@ export default async function payUser(
     // Return !undefined if command go well
     return paid_data.saldo;
     // Catch Error
-  } catch (err) {
-    // Return Err
-    return err;
-  }
+  // } catch (err) {
+  //   // Return Err
+  //   return err;
+  // }
 }

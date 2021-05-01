@@ -48,7 +48,7 @@ function regUser(id, table) {
                 case 0: return [4 /*yield*/, table.user_table.findOne({ where: { userId: id } })];
                 case 1:
                     user = _a.sent();
-                    if (!(user == null)) return [3 /*break*/, 3];
+                    if (!(user === null)) return [3 /*break*/, 3];
                     return [4 /*yield*/, table.user_table.create({ userId: id })];
                 case 2:
                     _a.sent();

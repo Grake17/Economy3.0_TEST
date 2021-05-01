@@ -48,12 +48,10 @@ var getUserDB_1 = __importDefault(require("./getUserDB"));
 function userPay(id, table, payment, transaction) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var payer_data, err_1;
+        var payer_data;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, getUserDB_1.default(id, table)];
+                case 0: return [4 /*yield*/, getUserDB_1.default(id, table)];
                 case 1:
                     payer_data = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
                     // Test Value
@@ -66,11 +64,6 @@ function userPay(id, table, payment, transaction) {
                     _b.sent();
                     // Return !undefined if command go well
                     return [2 /*return*/, payer_data.saldo];
-                case 3:
-                    err_1 = _b.sent();
-                    // Return Err
-                    return [2 /*return*/, err_1];
-                case 4: return [2 /*return*/];
             }
         });
     });

@@ -65,7 +65,7 @@ function pay(mgs, table, args) {
             list_mention = (_a = mgs.mentions.members) === null || _a === void 0 ? void 0 : _a.first();
             list_role = mgs.mentions.roles.first();
             // Check If Some Value Is Not Valid
-            if (list_mention && !isNaN(Number(args[2])) && Number(args[2]) > 0)
+            if (list_mention && !isNaN(Number(args[2])) && Number(args[2]) > 0 && list_mention.id !== mgs.author.id)
                 // If Mention User
                 return [2 /*return*/, payUser(list_mention.id, mgs.author.id, table, Number(args[2]), mgs)];
             // Check If Some Value Is Not Valid
@@ -110,7 +110,7 @@ function payUser(paid_id, payer_id, table, payment, mgs) {
                         var _a, _b, _c, _d;
                         // Check if some value null
                         if (!paid_result_1 || !pay_result_1)
-                            return invalideCMD_1.default(mgs);
+                            return console.log(paid_result_1, pay_result_1);
                         // Embed For Response
                         var embed = new discord_js_1.MessageEmbed()
                             .setAuthor(config_json_1.author_name)

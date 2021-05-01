@@ -71,7 +71,7 @@ function errorMGS(mgs, err) {
                 .setAuthor("**Economy v3.67")
                 .setTitle("Error during Execution")
                 .setColor(config.economy_color)
-                .setDescription("L'organizzazione ci ha trovato: **El PSY CONGROO**");
+                .setDescription("Error Code " + err);
             // Send Error Embed
             mgs.channel.send(errEmbed);
             // Console Log Error

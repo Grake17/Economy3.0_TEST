@@ -26,7 +26,7 @@ export default async function pay(mgs: Message, table: tables, args: string[]) {
   // Role Menstion
   const list_role = mgs.mentions.roles.first();
   // Check If Some Value Is Not Valid
-  if (list_mention && !isNaN(Number(args[2])) && Number(args[2]) > 0)
+  if (list_mention && !isNaN(Number(args[2])) && Number(args[2]) > 0 && list_mention.id !== mgs.author.id)
     // If Mention User
     return payUser(list_mention.id, mgs.author.id, table, Number(args[2]), mgs);
   // Check If Some Value Is Not Valid
@@ -59,7 +59,7 @@ async function payUser(
     // Test Result
     t.commit().then(() => {
       // Check if some value null
-      if (!paid_result || !pay_result) return invalidCommand(mgs);
+      if (!paid_result || !pay_result) return console.log(paid_result, pay_result);
       // Embed For Response
       const embed = new MessageEmbed()
         .setAuthor(author_name)
@@ -81,12 +81,6 @@ async function payUser(
     // Message Error
     errorMGS(mgs, err);
   }
-
-  // // Function Paid
-  // const paid_result = await userPaid(paid_id, table, payment);
-  // // Function Pay
-  // const pay_result = await userPay(payer_id, table, payment);
-  // console.log(pay_result, paid_result);
 }
 
 // Function Tag Crew

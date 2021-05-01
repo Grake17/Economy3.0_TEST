@@ -48,16 +48,15 @@ var getUserDB_1 = __importDefault(require("./getUserDB"));
 function payUser(id, table, payment, transaction) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var paid_data, err_1;
+        var paid_data;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, getUserDB_1.default(id, table)];
+                case 0: return [4 /*yield*/, getUserDB_1.default(id, table)];
                 case 1:
                     paid_data = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
+                    console.log((paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo) == undefined);
                     // Test Value
-                    if (!(paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo))
+                    if ((paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo) == undefined)
                         return [2 /*return*/, paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo];
                     // Make transition
                     return [4 /*yield*/, table.user_table.update({ saldo: paid_data.saldo + payment }, { where: { userId: id }, transaction: transaction })];
@@ -66,11 +65,6 @@ function payUser(id, table, payment, transaction) {
                     _b.sent();
                     // Return !undefined if command go well
                     return [2 /*return*/, paid_data.saldo];
-                case 3:
-                    err_1 = _b.sent();
-                    // Return Err
-                    return [2 /*return*/, err_1];
-                case 4: return [2 /*return*/];
             }
         });
     });
