@@ -2,25 +2,6 @@
 // ===================================================
 // Error Function
 // ===================================================
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -59,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import Config
-var config = __importStar(require("../config.json"));
+var config_json_1 = require("../config.json");
 // Import Discord
 var discord_js_1 = require("discord.js");
 // Export Function
@@ -68,14 +49,12 @@ function errorMGS(mgs, err) {
         var errEmbed;
         return __generator(this, function (_a) {
             errEmbed = new discord_js_1.MessageEmbed()
-                .setAuthor("**Economy v3.67")
-                .setTitle("Error during Execution")
-                .setColor(config.economy_color)
-                .setDescription("Error Code " + err);
+                .setAuthor(config_json_1.author_name)
+                .setTitle("Errore nel comando!")
+                .setColor(config_json_1.economy_color)
+                .setDescription("" + err);
             // Send Error Embed
             mgs.channel.send(errEmbed);
-            // Console Log Error
-            console.log(err);
             return [2 /*return*/];
         });
     });

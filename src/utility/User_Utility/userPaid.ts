@@ -20,9 +20,8 @@ export default async function payUser(
   //try {
     // Get paidr Data
     const paid_data = (await getUserDB(id, table))?.get();
-    console.log(paid_data?.saldo == undefined)
     // Test Value
-    if (paid_data?.saldo == undefined) return paid_data?.saldo;
+    if (!paid_data?.saldo) return console.log(1);
     // Make transition
     await table.user_table.update(
       { saldo: paid_data.saldo + payment },

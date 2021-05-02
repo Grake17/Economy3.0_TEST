@@ -2,25 +2,6 @@
 // ===================================================
 // Economy 3.0
 // ===================================================
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -62,17 +43,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import Discord.js
-var Discord = __importStar(require("discord.js"));
+var discord_js_1 = require("discord.js");
 // Import DB
 var db_1 = __importDefault(require("./db/db"));
 // import .env
 var env_1 = require("./env");
 // Import Handlers
 var command_handler_1 = __importDefault(require("./handlers/command_handler"));
+var guildmember_1 = __importDefault(require("./handlers/guildmember"));
 // Error Handler
 try {
     // Create Client
-    var client_1 = new Discord.Client();
+    var client_1 = new discord_js_1.Client();
     // .env
     var env_2 = env_1.env_var();
     // Load DB Return Promise for check Error
@@ -83,6 +65,8 @@ try {
         table.user_table.sync();
         // Bot on
         client_1.on('ready', function () { var _a; return console.log(((_a = client_1.user) === null || _a === void 0 ? void 0 : _a.username) + " is ready!"); });
+        // Command New User
+        client_1.on('guildMemberAdd', function (user) { return guildmember_1.default(user, table); });
         // Command Handler
         client_1.on('message', function (message) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
             return [2 /*return*/, command_handler_1.default(message, env_2, table)];

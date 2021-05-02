@@ -54,10 +54,9 @@ function payUser(id, table, payment, transaction) {
                 case 0: return [4 /*yield*/, getUserDB_1.default(id, table)];
                 case 1:
                     paid_data = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
-                    console.log((paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo) == undefined);
                     // Test Value
-                    if ((paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo) == undefined)
-                        return [2 /*return*/, paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo];
+                    if (!(paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo))
+                        return [2 /*return*/, console.log(1)];
                     // Make transition
                     return [4 /*yield*/, table.user_table.update({ saldo: paid_data.saldo + payment }, { where: { userId: id }, transaction: transaction })];
                 case 2:

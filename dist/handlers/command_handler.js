@@ -65,9 +65,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var config = __importStar(require("../config.json"));
 // Import Commands
 var commands_list_1 = __importDefault(require("../commands/commands_list"));
+// Import Error Message
 var errorMGS_1 = __importDefault(require("../utility/errorMGS"));
 // Exports Module Command
-var commandHandler = function (mgs, env, table) {
+function commandHandler(mgs, env, table) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
         var args, command;
@@ -96,6 +97,6 @@ var commandHandler = function (mgs, env, table) {
             return [2 /*return*/];
         });
     });
-};
-// Exports Handler
+}
 exports.default = commandHandler;
+;

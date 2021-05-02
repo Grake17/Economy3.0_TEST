@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Register User Function
+// Command Member LeaderBord
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -39,27 +39,54 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Export Function
-function regUser(id, table) {
+// Import Discord Type
+var discord_js_1 = require("discord.js");
+// Import Config
+var config_json_1 = require("../../config.json");
+// Export Funcion
+function member_leaderbord(mgs, table) {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var user;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, table.user_table.findOne({ where: { userId: id } })];
+        var user_list, embed, user, x, user_data;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, table.user_table.findAll({
+                        order: [
+                            ['saldoDepositatoTot', 'DESC']
+                        ]
+                    })];
                 case 1:
-                    user = _a.sent();
-                    // Create User If not exist
-                    if (user != null) {
-                        return [2 /*return*/, "Utente già presente sul DB"];
+                    user_list = _b.sent();
+                    embed = new discord_js_1.MessageEmbed()
+                        .setAuthor(config_json_1.author_name)
+                        .setTitle("Classifica Membri")
+                        .setColor(config_json_1.economy_color);
+                    if (!(user_list.length == 0)) return [3 /*break*/, 2];
+                    // Embed List Empy
+                    embed.setDescription("Non c'è nessuno nella classifica");
+                    // Send Message
+                    mgs.channel.send(embed);
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, table.user_table.findOne({ where: { userId: mgs.author.id } })];
+                case 3:
+                    user = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
+                    // Set Description
+                    if (user)
+                        embed.setDescription("<@!" + user.userId + "> -----> " + user.saldoDepositatoTot);
+                    // Set List        
+                    for (x = 0; x < 10; x++) {
+                        user_data = user_list[x].get();
+                        console.log(user_data);
+                        // Add Field
+                        if (user_data)
+                            embed.addField("--------------------------", "**" + (x + 1) + ":** <@!" + user_data.userId + "> ----> " + user_data.saldoDepositatoTot);
                     }
-                    ;
-                    // Return User Data or Error
-                    table.user_table.create({ userId: id }).then(function () { return undefined; }).catch(function (err) {
-                        return "Errore durante la crezione dell'utente";
-                    });
-                    return [2 /*return*/];
+                    // Send Embed
+                    mgs.channel.send(embed);
+                    _b.label = 4;
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-exports.default = regUser;
+exports.default = member_leaderbord;

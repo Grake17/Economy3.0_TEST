@@ -8,14 +8,13 @@ import { Message } from "discord.js";
 import * as config from "../config.json";
 // Import Commands
 import command_list from "../commands/commands_list";
-// Import Sequelize
-import { ModelCtor, Model } from "sequelize/types";
 // Import Interface Table
 import tables from "../db/table_interface";
+// Import Error Message
 import errorMGS from "../utility/errorMGS";
 
 // Exports Module Command
-const commandHandler = async function (mgs: Message, env, table: tables) {
+export default async function commandHandler(mgs: Message, env, table: tables) {
   // Try Catch For Error
   try {
     // Check Channel
@@ -44,5 +43,3 @@ const commandHandler = async function (mgs: Message, env, table: tables) {
   }
 };
 
-// Exports Handler
-export default commandHandler;

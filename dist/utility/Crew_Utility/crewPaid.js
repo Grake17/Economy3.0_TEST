@@ -52,7 +52,7 @@ function crewPaid(id, table, payment) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
+                    _b.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, getCrew_1.default(id, table)];
                 case 1:
                     paid_data = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
@@ -60,12 +60,17 @@ function crewPaid(id, table, payment) {
                     if (!(paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo))
                         return [2 /*return*/, paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo];
                     // Make Transition
-                    return [2 /*return*/, paid_data.saldo];
+                    return [4 /*yield*/, table.crew_table.update({ saldo: paid_data.saldo + payment }, { where: { crewId: id } })];
                 case 2:
+                    // Make Transition
+                    _b.sent();
+                    // Return 
+                    return [2 /*return*/, paid_data.saldo];
+                case 3:
                     err_1 = _b.sent();
                     console.log(err_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });

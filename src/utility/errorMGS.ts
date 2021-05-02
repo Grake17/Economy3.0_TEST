@@ -3,20 +3,20 @@
 // ===================================================
 
 // Import Config
-import * as config from "../config.json";
+import { economy_color, author_name } from "../config.json";
 // Import Discord
 import { Message, MessageEmbed } from "discord.js";
 
 // Export Function
-export default async function errorMGS(mgs: Message, err: any) {
+export default async function errorMGS(mgs: Message, err: string) {
   // Error Embed
   const errEmbed = new MessageEmbed()
-    .setAuthor("**Economy v3.67")
-    .setTitle("Error during Execution")
-    .setColor(config.economy_color)
-    .setDescription(`Error Code ${err}`);
+    .setAuthor(author_name)
+    .setTitle("Errore nel comando!")
+    .setColor(economy_color)
+    .setDescription(`${err}`);
   // Send Error Embed
   mgs.channel.send(errEmbed);
-  // Console Log Error
-  console.log(err);
+  // // Console Log Error
+  // console.log(err);
 }

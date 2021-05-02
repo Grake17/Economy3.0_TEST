@@ -3,13 +3,16 @@
 // ===================================================
 
 // Import Discord.js
-import { Message, MessageEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 // Import Table Interface
 import tables from '../db/table_interface';
 // Command Test
 import pong from './command/pong'; // Import Pong
+import deposita from './economy_command/deposita'; // Import Deposita
+import member_leaderbord from './economy_command/member_leaderbord'; // Import LeaderBord
 import pay from './economy_command/pay'; // Import Pay
 import portafoglio from './economy_command/portafoglio'; // Import Portafoglio
+import registra from './economy_command/registra'; // Import Registra
 import registragt from './economy_command/registragt'; // Import RegistraGT
 
 
@@ -18,7 +21,10 @@ const command_list: Record<string, ((mgs : Message, table: tables, args: string[
   pong: pong,
   portafoglio: portafoglio,
   registragt: registragt,
-  pay: pay
+  pay: pay,
+  classificamembri: member_leaderbord,
+  registra: registra,
+  deposita: deposita
 }
 
 // Exports

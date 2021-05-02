@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Register User Function
+// New Guilder Member 
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -38,28 +38,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// Export Function
-function regUser(id, table) {
+// Import RegUser
+var regUser_1 = __importDefault(require("../utility/User_Utility/regUser"));
+// Export Handler
+function guildAdd(user, table) {
     return __awaiter(this, void 0, void 0, function () {
-        var user;
+        var user_reg;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, table.user_table.findOne({ where: { userId: id } })];
+                case 0: return [4 /*yield*/, regUser_1.default(user.id, table)];
                 case 1:
-                    user = _a.sent();
-                    // Create User If not exist
-                    if (user != null) {
-                        return [2 /*return*/, "Utente già presente sul DB"];
-                    }
-                    ;
-                    // Return User Data or Error
-                    table.user_table.create({ userId: id }).then(function () { return undefined; }).catch(function (err) {
-                        return "Errore durante la crezione dell'utente";
-                    });
+                    user_reg = _a.sent();
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.default = regUser;
+exports.default = guildAdd;

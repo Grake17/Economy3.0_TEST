@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Register User Function
+// Function List Embed
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -39,27 +39,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Import Discord Type
+var discord_js_1 = require("discord.js");
+// Import Table Interface
 // Export Function
-function regUser(id, table) {
+function list(mgs, list) {
     return __awaiter(this, void 0, void 0, function () {
-        var user;
+        var embed;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, table.user_table.findOne({ where: { userId: id } })];
-                case 1:
-                    user = _a.sent();
-                    // Create User If not exist
-                    if (user != null) {
-                        return [2 /*return*/, "Utente già presente sul DB"];
-                    }
-                    ;
-                    // Return User Data or Error
-                    table.user_table.create({ userId: id }).then(function () { return undefined; }).catch(function (err) {
-                        return "Errore durante la crezione dell'utente";
-                    });
-                    return [2 /*return*/];
-            }
+            embed = new discord_js_1.MessageEmbed();
+            return [2 /*return*/];
         });
     });
 }
-exports.default = regUser;
+exports.default = list;

@@ -8,16 +8,18 @@ import tables from "../../db/table_interface";
 import getCrew from "./getCrew";
 
 // Export Function
-export default async function crewPaid(id:string, table: tables, payment: number): Promise<number | undefined> {
+export default async function crewPaid(id: string, table: tables, payment: number): Promise<number | undefined> {
     // Try Catch for Error
     try {
         // Get Crew Data
         const paid_data = (await getCrew(id, table))?.get();
         // Test Value
-        if(!paid_data?.saldo) return paid_data?.saldo;
+        if (!paid_data?.saldo) return paid_data?.saldo;
         // Make Transition
+        await table.crew_table.update({ saldo: paid_data.saldo + payment }, { where: { crewId: id } });
+        // Return 
         return paid_data.saldo;
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
 }

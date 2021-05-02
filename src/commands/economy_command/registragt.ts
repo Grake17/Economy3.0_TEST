@@ -10,8 +10,8 @@ import regUser from "../../utility/User_Utility/regUser";
 
 // Command Export Function
 export default async function registraGT(mgs: Message, table: tables) {
-  // Reg User
-  regUser(mgs.author.id, table);
+  // // Reg User
+  // regUser(mgs.author.id, table);
   // Embed
   const embed = new MessageEmbed()
     .setAuthor("Economy v3.67")
