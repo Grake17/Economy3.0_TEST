@@ -9,6 +9,7 @@ import tables from '../db/table_interface';
 // Command Test
 import pong from './command/pong'; // Import Pong
 import deposita from './economy_command/deposita'; // Import Deposita
+import giveaway from './economy_command/giveaway'; // Import Giveaway
 import member_leaderbord from './economy_command/member_leaderbord'; // Import LeaderBord
 import pay from './economy_command/pay'; // Import Pay
 import portafoglio from './economy_command/portafoglio'; // Import Portafoglio
@@ -24,7 +25,8 @@ const command_list: Record<string, ((mgs : Message, table: tables, args: string[
   pay: pay,
   classificamembri: member_leaderbord,
   registra: registra,
-  deposita: deposita
+  deposita: deposita,
+  giveaway: giveaway
 }
 
 // Exports

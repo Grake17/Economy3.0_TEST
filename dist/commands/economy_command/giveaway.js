@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Command Deposita
+// Command GiveAway
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -44,75 +44,48 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import Discord Type
 var discord_js_1 = require("discord.js");
-// Import MGS ERROR
+// Import Error MGS
 var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
-// Fucntion Get User
+// Import GetUser Function
 var getUserDB_1 = __importDefault(require("../../utility/User_Utility/getUserDB"));
-// Import Sequelize
-var sequelize_1 = __importDefault(require("../../db/sequelize"));
-// Get Crew
-var getCrew_1 = __importDefault(require("../../utility/Crew_Utility/getCrew"));
-// import Config
+// Import config
 var config_json_1 = require("../../config.json");
-// Export Funcion
-function deposita(mgs, table, args) {
-    var _a, _b;
+// Export Function 
+function giveaway(mgs, table) {
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
-        var user, crew, sequelize, t;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    // Check User Input
-                    if (!Number(args[2]) || Number(args[2]) < 1000)
-                        return [2 /*return*/, errorMGS_1.default(mgs, "Valore inserito invalido")];
-                    return [4 /*yield*/, getUserDB_1.default(mgs.author.id, table)];
+        var user;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0: return [4 /*yield*/, getUserDB_1.default(mgs.author.id, table)];
                 case 1:
-                    user = (_a = (_c.sent())) === null || _a === void 0 ? void 0 : _a.get();
-                    // Check Credits
-                    if (!(user === null || user === void 0 ? void 0 : user.saldo) || (user === null || user === void 0 ? void 0 : user.saldo) < Number(args[2]))
-                        return [2 /*return*/, errorMGS_1.default(mgs, "Non hai abbastanza soldi")];
-                    // Check Crew
-                    if (!user.ciurmaId)
-                        return [2 /*return*/, errorMGS_1.default(mgs, "Non sei in nessuna ciurma!")];
-                    return [4 /*yield*/, getCrew_1.default(user.ciurmaId, table)];
-                case 2:
-                    crew = (_b = (_c.sent())) === null || _b === void 0 ? void 0 : _b.get();
-                    // Test Crew
-                    if (!(crew === null || crew === void 0 ? void 0 : crew.saldo))
-                        return [2 /*return*/, errorMGS_1.default(mgs, "Ciurma non trovata")];
-                    return [4 /*yield*/, sequelize_1.default()];
-                case 3:
-                    sequelize = _c.sent();
-                    // Check Sequelize
-                    if (!sequelize)
-                        return [2 /*return*/, errorMGS_1.default(mgs, "Internal DB Error")];
-                    return [4 /*yield*/, sequelize.transaction()];
-                case 4:
-                    t = _c.sent();
-                    // User Pay        
-                    return [4 /*yield*/, table.user_table.update({ saldo: user.saldo - Number(args[2]) }, { where: { userId: mgs.author.id }, transaction: t })];
-                case 5:
-                    // User Pay        
-                    _c.sent();
-                    // Pay Crew
-                    return [4 /*yield*/, table.crew_table.update({ saldo: crew.saldo + Number(args[2]) }, { where: { crewId: user.ciurmaId }, transaction: t })];
-                case 6:
-                    // Pay Crew
-                    _c.sent();
-                    // Commit Transaction
-                    t.commit().then(function () {
-                        // New Embed
+                    user = (_a = (_d.sent())) === null || _a === void 0 ? void 0 : _a.get();
+                    // Check User
+                    if (!user || !user.saldo)
+                        return [2 /*return*/, errorMGS_1.default(mgs, "L'utente non \u00E8 sul DB\nUsa il comando **>e registra** per registrarti")];
+                    // Check Credit
+                    if (user.saldo < 50000)
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Non hai abbastanza talleri\n**Saldo corrente**: " + user.saldo)];
+                    // Check Roles
+                    if ((_c = (_b = mgs.guild) === null || _b === void 0 ? void 0 : _b.members.cache.get(mgs.author.id)) === null || _c === void 0 ? void 0 : _c.roles.cache.get(config_json_1.roles.role_giveaway))
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Sei già iscritto al giveaway!")];
+                    // Make Payment
+                    table.user_table.update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id } }).then(function () {
+                        // Send Embed
                         var embed = new discord_js_1.MessageEmbed()
                             .setAuthor(config_json_1.author_name)
                             .setColor(config_json_1.economy_color)
-                            .setTitle("Talleri Depositati")
-                            .setDescription(mgs.author.username + " hai depositato con successo " + args[2] + " talleri.");
+                            .setTitle("Iscritto al Giveaway")
+                            .setDescription(mgs.author.username + " sei stato iscritto con successo all'estrazione!");
                         // Send Message
                         mgs.channel.send(embed);
-                    }).catch(function (err) { return errorMGS_1.default(mgs, "Error 500"); });
+                    }).catch(function () {
+                        // Error MGS
+                        errorMGS_1.default(mgs, "500");
+                    });
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.default = deposita;
+exports.default = giveaway;

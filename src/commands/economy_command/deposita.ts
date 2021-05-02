@@ -20,7 +20,7 @@ import { author_name, economy_color } from "../../config.json";
 // Export Funcion
 export default async function deposita(mgs: Message, table: tables, args: string[]) {
     // Check User Input
-    if (!Number(args[2]) || Number(args[2]) < 1000) return errorMGS(mgs, "Valore inserito Invalido");
+    if (!Number(args[2]) || Number(args[2]) < 1000) return errorMGS(mgs, "Valore inserito invalido");
     // Get User
     const user = (await getUserDB(mgs.author.id, table))?.get();
     // Check Credits

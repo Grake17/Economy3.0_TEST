@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Command Test
 var pong_1 = __importDefault(require("./command/pong")); // Import Pong
 var deposita_1 = __importDefault(require("./economy_command/deposita")); // Import Deposita
+var giveaway_1 = __importDefault(require("./economy_command/giveaway")); // Import Giveaway
 var member_leaderbord_1 = __importDefault(require("./economy_command/member_leaderbord")); // Import LeaderBord
 var pay_1 = __importDefault(require("./economy_command/pay")); // Import Pay
 var portafoglio_1 = __importDefault(require("./economy_command/portafoglio")); // Import Portafoglio
@@ -22,7 +23,8 @@ var command_list = {
     pay: pay_1.default,
     classificamembri: member_leaderbord_1.default,
     registra: registra_1.default,
-    deposita: deposita_1.default
+    deposita: deposita_1.default,
+    giveaway: giveaway_1.default
 };
 // Exports
 exports.default = command_list;

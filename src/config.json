@@ -2,5 +2,9 @@
     "channel_mail": "817333103416180738",
     "economy_color": "0xFF9900",
     "author_name": "Economy v9.17",
-    "server_id": "404295489010532372"
+    "server_id": "404295489010532372",
+    "roles": {
+        "role_giveaway": "838504670116577281"
+    },
+    "role_giveaway": "838504670116577281"
 }
