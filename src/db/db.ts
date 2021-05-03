@@ -2,15 +2,12 @@
 // DB Main
 // ===================================================
 
-// Import Sequelize
-import Sequelize from "sequelize";
-
-// Import ENV
-import { env_var } from "../env";
-
 // Import Module
 import crews from "./models/Crews/crew_model";
 import users from "./models/Users/user_model";
+import temp_roles from "./models/Temp_Roles/temp_roles_model";
+
+// Import Sequelize
 import imp_seq from "./sequelize";
 
 // Import Table Interface
@@ -51,10 +48,12 @@ const load_db = async function (): Promise<Table> {
         // Define Model
         const crew_table = sequelize.define(crews.name, crews.model);
         const user_table = sequelize.define(users.name, users.model);
+        const temp_roles_table = sequelize.define(temp_roles.name, temp_roles.model);
         // Export Table
         const table: Table = {
           crew_table: crew_table,
           user_table: user_table,
+          temp_roles_table : temp_roles_table
         };
         // Resolve Sequelize
         resolve(table);

@@ -89,10 +89,10 @@ function deposita(mgs, table, args) {
                     return [4 /*yield*/, sequelize.transaction()];
                 case 4:
                     t = _c.sent();
-                    // User Pay        
+                    // User Pay
                     return [4 /*yield*/, table.user_table.update({ saldo: user.saldo - Number(args[2]) }, { where: { userId: mgs.author.id }, transaction: t })];
                 case 5:
-                    // User Pay        
+                    // User Pay
                     _c.sent();
                     // Pay Crew
                     return [4 /*yield*/, table.crew_table.update({ saldo: crew.saldo + Number(args[2]) }, { where: { crewId: user.ciurmaId }, transaction: t })];
@@ -100,7 +100,8 @@ function deposita(mgs, table, args) {
                     // Pay Crew
                     _c.sent();
                     // Commit Transaction
-                    t.commit().then(function () {
+                    t.commit()
+                        .then(function () {
                         // New Embed
                         var embed = new discord_js_1.MessageEmbed()
                             .setAuthor(config_json_1.author_name)
@@ -109,7 +110,8 @@ function deposita(mgs, table, args) {
                             .setDescription(mgs.author.username + " hai depositato con successo " + args[2] + " talleri.");
                         // Send Message
                         mgs.channel.send(embed);
-                    }).catch(function (err) { return errorMGS_1.default(mgs, "Error 500"); });
+                    })
+                        .catch(function (err) { return errorMGS_1.default(mgs, "Error 500"); });
                     return [2 /*return*/];
             }
         });

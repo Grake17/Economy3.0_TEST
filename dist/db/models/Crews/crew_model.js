@@ -13,54 +13,54 @@ var crews = {
     crewId: {
         type: sequelize_1.default.STRING,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
     },
     name: {
         type: sequelize_1.default.STRING,
-        unique: true
+        unique: true,
     },
     creatorId: {
         type: sequelize_1.default.STRING,
-        defaultValue: null
+        defaultValue: null,
     },
     stanzaPrincipale: {
         type: sequelize_1.default.STRING,
-        defaultValue: null
+        defaultValue: null,
     },
     logo: {
         type: sequelize_1.default.STRING,
-        defaultValue: null
+        defaultValue: null,
     },
     saldo: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     saldoMensile: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
     },
     verificata: {
         type: sequelize_1.default.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     bannata: {
         type: sequelize_1.default.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     livellociurma: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 1
+        defaultValue: 1,
     },
     membrimin: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 6
+        defaultValue: 6,
     },
     membrimax: {
         type: sequelize_1.default.INTEGER,
-        defaultValue: 10
-    }
+        defaultValue: 10,
+    },
 };
 // Model Crew
-var crews_model = { name: 'crews', model: crews };
+var crews_model = { name: "crews", model: crews };
 // Export Model
 exports.default = crews_model;

@@ -13,6 +13,7 @@ import { env_var } from './env';
 
 // Import Handlers
 import commandHandler from './handlers/command_handler';
+// Import gui
 import guildAdd from './handlers/guildmember';
 
 // Error Handler
@@ -30,7 +31,8 @@ try {
       // Sync Tables
       table.crew_table.sync();
       table.user_table.sync();
-
+      table.temp_roles_table.sync();
+      
       // Bot on
       client.on('ready', () => console.log(`${client.user?.username} is ready!`));
 

@@ -42,15 +42,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Discord Type
-var discord_js_1 = require("discord.js");
 // Import Error MGS
 var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
 // Import GetUser Function
 var getUserDB_1 = __importDefault(require("../../utility/User_Utility/getUserDB"));
 // Import config
 var config_json_1 = require("../../config.json");
-// Export Function 
+// Import Temp Role
+var temp_role_1 = __importDefault(require("../../utility/temp_role"));
+// Export Function
 function giveaway(mgs, table) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
@@ -61,7 +61,7 @@ function giveaway(mgs, table) {
                 case 1:
                     user = (_a = (_d.sent())) === null || _a === void 0 ? void 0 : _a.get();
                     // Check User
-                    if (!user || !user.saldo)
+                    if (!user || user.saldo == undefined)
                         return [2 /*return*/, errorMGS_1.default(mgs, "L'utente non \u00E8 sul DB\nUsa il comando **>e registra** per registrarti")];
                     // Check Credit
                     if (user.saldo < 50000)
@@ -70,16 +70,22 @@ function giveaway(mgs, table) {
                     if ((_c = (_b = mgs.guild) === null || _b === void 0 ? void 0 : _b.members.cache.get(mgs.author.id)) === null || _c === void 0 ? void 0 : _c.roles.cache.get(config_json_1.roles.role_giveaway))
                         return [2 /*return*/, errorMGS_1.default(mgs, "Sei già iscritto al giveaway!")];
                     // Make Payment
-                    table.user_table.update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id } }).then(function () {
-                        // Send Embed
-                        var embed = new discord_js_1.MessageEmbed()
-                            .setAuthor(config_json_1.author_name)
-                            .setColor(config_json_1.economy_color)
-                            .setTitle("Iscritto al Giveaway")
-                            .setDescription(mgs.author.username + " sei stato iscritto con successo all'estrazione!");
-                        // Send Message
-                        mgs.channel.send(embed);
-                    }).catch(function () {
+                    table.user_table
+                        .update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id } })
+                        .then(function () {
+                        //   // Send Embed
+                        //   const embed = new MessageEmbed()
+                        //     .setAuthor(author_name)
+                        //     .setColor(economy_color)
+                        //     .setTitle(`Iscritto al Giveaway`)
+                        //     .setDescription(
+                        //       `${mgs.author.username} sei stato iscritto con successo all'estrazione!`
+                        //     );
+                        //   // Send Message
+                        //   mgs.channel.send(embed);
+                        temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, "730", table);
+                    })
+                        .catch(function () {
                         // Error MGS
                         errorMGS_1.default(mgs, "500");
                     });

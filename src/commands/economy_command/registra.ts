@@ -15,17 +15,19 @@ import { author_name, economy_color } from "../../config.json";
 
 // Export Function
 export default async function registra(mgs: Message, table: tables) {
-    // Reg User
-    const reg = (await regUser(mgs.author.id, table));
-    console.log(reg)
-    // Check if User Reg Success
-    if (reg) return errorMGS(mgs, reg);
-    // Embed
-    const embed = new MessageEmbed()
-        .setAuthor(author_name)
-        .setColor(economy_color)
-        .setTitle(`Utente Configurato Correttamente`)
-        .setDescription(`<Bevenuto in Sea OF Thives ITALIA ${mgs.author.username}!`);
-    // Send Embed
-    mgs.channel.send(embed);
+  // Reg User
+  const reg = await regUser(mgs.author.id, table);
+  console.log(reg);
+  // Check if User Reg Success
+  if (reg) return errorMGS(mgs, reg);
+  // Embed
+  const embed = new MessageEmbed()
+    .setAuthor(author_name)
+    .setColor(economy_color)
+    .setTitle(`Utente Configurato Correttamente`)
+    .setDescription(
+      `<Bevenuto in Sea OF Thives ITALIA ${mgs.author.username}!`
+    );
+  // Send Embed
+  mgs.channel.send(embed);
 }

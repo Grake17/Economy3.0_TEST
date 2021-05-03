@@ -38,24 +38,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var temp_role_1 = __importDefault(require("../../utility/temp_role"));
+var config_json_1 = require("../../config.json");
 // Export Module
 function pong(mgs, table) {
-    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var test;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0: return [4 /*yield*/, table.crew_table.findOne({ where: { crewId: "734021779638714439" } })];
-                case 1:
-                    test = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
-                    // Check Null
-                    if (!test)
-                        return [2 /*return*/];
-                    // Funziona!
-                    console.log(test.name);
-                    return [2 /*return*/];
-            }
+        return __generator(this, function (_a) {
+            temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, "730", table).then(function (result) { return mgs.channel.send(result + 1); }).catch(function (result_error) { return mgs.channel.send(result_error); });
+            console.log("ciao");
+            return [2 /*return*/];
         });
     });
 }

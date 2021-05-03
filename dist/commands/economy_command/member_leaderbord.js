@@ -51,9 +51,7 @@ function member_leaderbord(mgs, table) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, table.user_table.findAll({
-                        order: [
-                            ['saldoDepositatoTot', 'DESC']
-                        ]
+                        order: [["saldoDepositatoTot", "DESC"]],
                     })];
                 case 1:
                     user_list = _b.sent();
@@ -73,7 +71,7 @@ function member_leaderbord(mgs, table) {
                     // Set Description
                     if (user)
                         embed.setDescription("<@!" + user.userId + "> -----> " + user.saldoDepositatoTot);
-                    // Set List        
+                    // Set List
                     for (x = 0; x < 10; x++) {
                         user_data = user_list[x].get();
                         console.log(user_data);

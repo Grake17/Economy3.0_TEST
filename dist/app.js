@@ -50,6 +50,7 @@ var db_1 = __importDefault(require("./db/db"));
 var env_1 = require("./env");
 // Import Handlers
 var command_handler_1 = __importDefault(require("./handlers/command_handler"));
+// Import gui
 var guildmember_1 = __importDefault(require("./handlers/guildmember"));
 // Error Handler
 try {
@@ -63,6 +64,7 @@ try {
         // Sync Tables
         table.crew_table.sync();
         table.user_table.sync();
+        table.temp_roles_table.sync();
         // Bot on
         client_1.on('ready', function () { var _a; return console.log(((_a = client_1.user) === null || _a === void 0 ? void 0 : _a.username) + " is ready!"); });
         // Command New User
