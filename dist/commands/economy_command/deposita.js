@@ -45,13 +45,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Import Discord Type
 var discord_js_1 = require("discord.js");
 // Import MGS ERROR
-var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
+var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 // Fucntion Get User
-var getUserDB_1 = __importDefault(require("../../utility/User_Utility/getUserDB"));
+var getUserDB_1 = __importDefault(require("../../utils/User_Utility/getUserDB"));
 // Import Sequelize
 var sequelize_1 = __importDefault(require("../../db/sequelize"));
 // Get Crew
-var getCrew_1 = __importDefault(require("../../utility/Crew_Utility/getCrew"));
+var getCrew_1 = __importDefault(require("../../utils/Crew_Utility/getCrew"));
 // import Config
 var config_json_1 = require("../../config.json");
 // Export Funcion

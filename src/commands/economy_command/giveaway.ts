@@ -7,13 +7,13 @@ import { Message, MessageEmbed } from "discord.js";
 // Import Interface
 import tables from "../../db/table_interface";
 // Import Error MGS
-import errorMGS from "../../utility/errorMGS";
+import errorMGS from "../../utils/errorMGS";
 // Import GetUser Function
-import getUserDB from "../../utility/User_Utility/getUserDB";
+import getUserDB from "../../utils/User_Utility/getUserDB";
 // Import config
 import { roles, economy_color, author_name } from "../../config.json";
 // Import Temp Role
-import addTempRole from "../../utility/temp_role";
+import addTempRole from "../../utils/temp_role";
 
 // Export Function
 export default async function giveaway(mgs: Message, table: tables) {
@@ -42,17 +42,24 @@ export default async function giveaway(mgs: Message, table: tables) {
   table.user_table
     .update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id } })
     .then(() => {
-      //   // Send Embed
-      //   const embed = new MessageEmbed()
-      //     .setAuthor(author_name)
-      //     .setColor(economy_color)
-      //     .setTitle(`Iscritto al Giveaway`)
-      //     .setDescription(
-      //       `${mgs.author.username} sei stato iscritto con successo all'estrazione!`
-      //     );
-      //   // Send Message
-      //   mgs.channel.send(embed);
-      addTempRole(mgs.author.id, roles.role_giveaway, "730", table);
+      // Add Temp Roles
+      addTempRole(mgs.author.id, roles.role_giveaway, 730, table)
+        .then((resolve) => {
+          // Send Embed
+          const embed = new MessageEmbed()
+            .setAuthor(author_name)
+            .setColor(economy_color)
+            .setTitle(`Iscritto al Giveaway`)
+            .setDescription(
+              `${mgs.author.username} sei stato iscritto con successo all'estrazione!`
+            );
+          // Send Message
+          mgs.channel.send(embed);
+        })
+        .catch((rejects) => {
+          // Error MGS
+          errorMGS(mgs, rejects);
+        });
     })
     .catch(() => {
       // Error MGS

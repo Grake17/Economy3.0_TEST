@@ -7,13 +7,13 @@ import { Message, MessageEmbed } from "discord.js";
 // Import Table Interface
 import tables from "../../db/table_interface";
 // Import MGS ERROR
-import errorMGS from "../../utility/errorMGS";
+import errorMGS from "../../utils/errorMGS";
 // Fucntion Get User
-import getUserDB from "../../utility/User_Utility/getUserDB";
+import getUserDB from "../../utils/User_Utility/getUserDB";
 // Import Sequelize
 import imp_seq from "../../db/sequelize";
 // Get Crew
-import getCrew from "../../utility/Crew_Utility/getCrew";
+import getCrew from "../../utils/Crew_Utility/getCrew";
 // import Config
 import { author_name, economy_color } from "../../config.json";
 

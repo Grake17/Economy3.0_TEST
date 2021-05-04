@@ -47,9 +47,9 @@ var config_json_1 = require("../../config.json");
 // Import Discord
 var discord_js_1 = require("discord.js");
 // Import Utilis
-var getUserDB_1 = __importDefault(require("../../utility/User_Utility/getUserDB"));
+var getUserDB_1 = __importDefault(require("../../utils/User_Utility/getUserDB"));
 // Error MGS
-var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
+var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 // Portafoglio Function
 function portafoglio(mgs, table) {
     var _a;

@@ -8,6 +8,7 @@ import { Message } from 'discord.js';
 import tables from '../db/table_interface';
 // Command Test
 import pong from './command/pong'; // Import Pong
+import assistenza from './economy_command/assistenza'; // Import Assistenza
 import deposita from './economy_command/deposita'; // Import Deposita
 import giveaway from './economy_command/giveaway'; // Import Giveaway
 import member_leaderbord from './economy_command/member_leaderbord'; // Import LeaderBord
@@ -26,7 +27,8 @@ const command_list: Record<string, ((mgs : Message, table: tables, args: string[
   classificamembri: member_leaderbord,
   registra: registra,
   deposita: deposita,
-  giveaway: giveaway
+  giveaway: giveaway,
+  assistenza: assistenza
 }
 
 // Exports

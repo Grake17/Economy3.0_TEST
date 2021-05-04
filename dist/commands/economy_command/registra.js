@@ -45,9 +45,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Import Discord Type
 var discord_js_1 = require("discord.js");
 // Import Reg User
-var regUser_1 = __importDefault(require("../../utility/User_Utility/regUser"));
+var regUser_1 = __importDefault(require("../../utils/User_Utility/regUser"));
 // import Error MGS
-var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
+var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 // import Config
 var config_json_1 = require("../../config.json");
 // Export Function

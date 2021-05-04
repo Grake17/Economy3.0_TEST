@@ -8,6 +8,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Command Test
 var pong_1 = __importDefault(require("./command/pong")); // Import Pong
+var assistenza_1 = __importDefault(require("./economy_command/assistenza")); // Import Assistenza
 var deposita_1 = __importDefault(require("./economy_command/deposita")); // Import Deposita
 var giveaway_1 = __importDefault(require("./economy_command/giveaway")); // Import Giveaway
 var member_leaderbord_1 = __importDefault(require("./economy_command/member_leaderbord")); // Import LeaderBord
@@ -24,7 +25,8 @@ var command_list = {
     classificamembri: member_leaderbord_1.default,
     registra: registra_1.default,
     deposita: deposita_1.default,
-    giveaway: giveaway_1.default
+    giveaway: giveaway_1.default,
+    assistenza: assistenza_1.default
 };
 // Exports
 exports.default = command_list;

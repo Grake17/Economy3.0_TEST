@@ -45,17 +45,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Import Discord
 var discord_js_1 = require("discord.js");
 // Message Invalid Function
-var invalideCMD_1 = __importDefault(require("../../utility/invalideCMD"));
+var invalideCMD_1 = __importDefault(require("../../utils/invalideCMD"));
 // Import Config
 var config_json_1 = require("../../config.json");
 // Import User Paid
-var userPaid_1 = __importDefault(require("../../utility/User_Utility/userPaid"));
+var userPaid_1 = __importDefault(require("../../utils/User_Utility/userPaid"));
 // import User Paid
-var userPay_1 = __importDefault(require("../../utility/User_Utility/userPay"));
+var userPay_1 = __importDefault(require("../../utils/User_Utility/userPay"));
 // Import Sequelize Instance
 var sequelize_1 = __importDefault(require("../../db/sequelize"));
 // Error Message
-var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
+var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 // Export Function
 function pay(mgs, table, args) {
     var _a;

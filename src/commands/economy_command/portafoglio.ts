@@ -9,9 +9,9 @@ import { Message, MessageEmbed } from "discord.js";
 // Import Tables Interface
 import tables from "../../db/table_interface";
 // Import Utilis
-import getUserDB from "../../utility/User_Utility/getUserDB";
+import getUserDB from "../../utils/User_Utility/getUserDB";
 // Error MGS
-import errorMGS from "../../utility/errorMGS";
+import errorMGS from "../../utils/errorMGS";
 
 // Portafoglio Function
 export default async function portafoglio(mgs: Message, table: tables) {

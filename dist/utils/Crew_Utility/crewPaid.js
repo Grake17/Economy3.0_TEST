@@ -1,26 +1,7 @@
 "use strict";
 // ===================================================
-// Command Handler
+// Crew Paid Function
 // ===================================================
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -61,42 +42,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import Config File
-var config = __importStar(require("../config.json"));
-// Import Commands
-var commands_list_1 = __importDefault(require("../commands/commands_list"));
-// Import Error Message
-var errorMGS_1 = __importDefault(require("../utils/errorMGS"));
-// Exports Module Command
-function commandHandler(mgs, env, table) {
+// Get Crew Function
+var getCrew_1 = __importDefault(require("./getCrew"));
+// Export Function
+function crewPaid(id, table, payment) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var args, command;
+        var paid_data, err_1;
         return __generator(this, function (_b) {
-            // Try Catch For Error
-            try {
-                // Check Channel
-                if (mgs.channel.id !== config.channel_mail)
-                    return [2 /*return*/];
-                args = mgs.content.split(" ");
-                command = args[0];
-                // Test Prefix
-                if (!(command === null || command === void 0 ? void 0 : command.startsWith(env.prefix)))
-                    return [2 /*return*/];
-                // Remove Prefix
-                command = command === null || command === void 0 ? void 0 : command.substring(1);
-                // Log Command for test
-                console.log(args);
-                // Exec Command
-                (_a = commands_list_1.default[args[1]]) === null || _a === void 0 ? void 0 : _a.call(commands_list_1.default, mgs, table, args);
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, getCrew_1.default(id, table)];
+                case 1:
+                    paid_data = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
+                    // Test Value
+                    if (!(paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo))
+                        return [2 /*return*/, paid_data === null || paid_data === void 0 ? void 0 : paid_data.saldo];
+                    // Make Transition
+                    return [4 /*yield*/, table.crew_table.update({ saldo: paid_data.saldo + payment }, { where: { crewId: id } })];
+                case 2:
+                    // Make Transition
+                    _b.sent();
+                    // Return 
+                    return [2 /*return*/, paid_data.saldo];
+                case 3:
+                    err_1 = _b.sent();
+                    console.log(err_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
-            catch (err) {
-                // Error Function
-                errorMGS_1.default(mgs, err);
-            }
-            return [2 /*return*/];
         });
     });
 }
-exports.default = commandHandler;
-;
+exports.default = crewPaid;

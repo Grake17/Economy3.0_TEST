@@ -6,7 +6,7 @@
 import { Message, MessageEmbed } from "discord.js";
 // Import Table Interface
 import tables from "../../db/table_interface";
-import regUser from "../../utility/User_Utility/regUser";
+import regUser from "../../utils/User_Utility/regUser";
 
 // Command Export Function
 export default async function registraGT(mgs: Message, table: tables) {

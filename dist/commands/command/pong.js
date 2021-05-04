@@ -42,13 +42,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var temp_role_1 = __importDefault(require("../../utility/temp_role"));
+var temp_role_1 = __importDefault(require("../../utils/temp_role"));
 var config_json_1 = require("../../config.json");
 // Export Module
 function pong(mgs, table) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, "730", table).then(function (result) { return mgs.channel.send(result + 1); }).catch(function (result_error) { return mgs.channel.send(result_error); });
+            temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, 730, table).then(function (result) { return mgs.channel.send(result + 1); }).catch(function (result_error) { return mgs.channel.send(result_error); });
             console.log("ciao");
             return [2 /*return*/];
         });

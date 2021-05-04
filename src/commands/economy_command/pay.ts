@@ -7,17 +7,17 @@ import { Message, MessageEmbed } from "discord.js";
 // import Table Interface
 import tables from "../../db/table_interface";
 // Message Invalid Function
-import invalidCommand from "../../utility/invalideCMD";
+import invalidCommand from "../../utils/invalideCMD";
 // Import Config
 import { author_name, economy_color } from "../../config.json";
 // Import User Paid
-import userPaid from "../../utility/User_Utility/userPaid";
+import userPaid from "../../utils/User_Utility/userPaid";
 // import User Paid
-import userPay from "../../utility/User_Utility/userPay";
+import userPay from "../../utils/User_Utility/userPay";
 // Import Sequelize Instance
 import imp_seq from "../../db/sequelize";
 // Error Message
-import errorMGS from "../../utility/errorMGS";
+import errorMGS from "../../utils/errorMGS";
 
 // Export Function
 export default async function pay(mgs: Message, table: tables, args: string[]) {

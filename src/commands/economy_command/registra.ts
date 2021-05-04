@@ -5,11 +5,11 @@
 // Import Discord Type
 import { Message, MessageEmbed } from "discord.js";
 // Import Reg User
-import regUser from "../../utility/User_Utility/regUser";
+import regUser from "../../utils/User_Utility/regUser";
 // Import Table Interface
 import tables from "../../db/table_interface";
 // import Error MGS
-import errorMGS from "../../utility/errorMGS";
+import errorMGS from "../../utils/errorMGS";
 // import Config
 import { author_name, economy_color } from "../../config.json";
 

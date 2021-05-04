@@ -5,7 +5,7 @@
 // Import Discord Type
 import { GuildMember } from "discord.js";
 // Import RegUser
-import regUser from "../utility/User_Utility/regUser";
+import regUser from "../utils/User_Utility/regUser";
 // Import Table Interface
 import tables from "../db/table_interface"
 

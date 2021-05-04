@@ -13,7 +13,7 @@ import errorMGS from "./errorMGS";
 export default async function addTempRole(
   user_id: string,
   role_id: string,
-  time: string,
+  time: number,
   table: tables
 ): Promise<string> {
   // Promise for error
@@ -27,7 +27,7 @@ export default async function addTempRole(
     const date_now = moment().utc(true).toDate();
     const date_lease = moment()
       .utc(true)
-      .add(1, `minutes`)
+      .add(time, `hours`)
       .toDate();
     await table.temp_roles_table.create({
       UserID: user_id,

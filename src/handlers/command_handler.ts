@@ -11,7 +11,7 @@ import command_list from "../commands/commands_list";
 // Import Interface Table
 import tables from "../db/table_interface";
 // Import Error Message
-import errorMGS from "../utility/errorMGS";
+import errorMGS from "../utils/errorMGS";
 
 // Exports Module Command
 export default async function commandHandler(mgs: Message, env, table: tables) {

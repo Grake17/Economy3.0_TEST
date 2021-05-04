@@ -42,14 +42,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Import Discord Type
+var discord_js_1 = require("discord.js");
 // Import Error MGS
-var errorMGS_1 = __importDefault(require("../../utility/errorMGS"));
+var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 // Import GetUser Function
-var getUserDB_1 = __importDefault(require("../../utility/User_Utility/getUserDB"));
+var getUserDB_1 = __importDefault(require("../../utils/User_Utility/getUserDB"));
 // Import config
 var config_json_1 = require("../../config.json");
 // Import Temp Role
-var temp_role_1 = __importDefault(require("../../utility/temp_role"));
+var temp_role_1 = __importDefault(require("../../utils/temp_role"));
 // Export Function
 function giveaway(mgs, table) {
     var _a, _b, _c;
@@ -73,17 +75,22 @@ function giveaway(mgs, table) {
                     table.user_table
                         .update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id } })
                         .then(function () {
-                        //   // Send Embed
-                        //   const embed = new MessageEmbed()
-                        //     .setAuthor(author_name)
-                        //     .setColor(economy_color)
-                        //     .setTitle(`Iscritto al Giveaway`)
-                        //     .setDescription(
-                        //       `${mgs.author.username} sei stato iscritto con successo all'estrazione!`
-                        //     );
-                        //   // Send Message
-                        //   mgs.channel.send(embed);
-                        temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, "730", table);
+                        // Add Temp Roles
+                        temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, 730, table)
+                            .then(function (resolve) {
+                            // Send Embed
+                            var embed = new discord_js_1.MessageEmbed()
+                                .setAuthor(config_json_1.author_name)
+                                .setColor(config_json_1.economy_color)
+                                .setTitle("Iscritto al Giveaway")
+                                .setDescription(mgs.author.username + " sei stato iscritto con successo all'estrazione!");
+                            // Send Message
+                            mgs.channel.send(embed);
+                        })
+                            .catch(function (rejects) {
+                            // Error MGS
+                            errorMGS_1.default(mgs, rejects);
+                        });
                     })
                         .catch(function () {
                         // Error MGS
