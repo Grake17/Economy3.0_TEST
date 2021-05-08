@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Command Test
+// AddMoney Command
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -42,17 +42,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var temp_role_1 = __importDefault(require("../../utils/NotUsedUtility/temp_role"));
+// Discord Type
+var discord_js_1 = require("discord.js");
+// Import Error MGS
+var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
+// get USer DB
+var getUserDB_1 = __importDefault(require("../../utils/User_Utility/getUserDB"));
+// Import config
 var config_json_1 = require("../../config.json");
-// Export Module
-function pong(mgs, table) {
+// Export Command
+function addMoney(mgs, table, args) {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, 730, table).then(function (result) { return mgs.channel.send(result + 1); }).catch(function (result_error) { return mgs.channel.send(result_error); });
-            console.log("ciao");
-            return [2 /*return*/];
+        var mention, user, tot;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    mention = mgs.mentions.users.first();
+                    // Check Sintax
+                    if (!Number(args[2]) || !mention)
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Sintassi invalida")];
+                    return [4 /*yield*/, getUserDB_1.default(mention.id, table)];
+                case 1:
+                    user = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.get();
+                    // Check User DB
+                    if ((user === null || user === void 0 ? void 0 : user.saldo) == undefined)
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Utente non registrato sul DB")];
+                    tot = user.saldo + Number(args[2]);
+                    // Add Money
+                    return [4 /*yield*/, table.user_table
+                            .update({ saldo: tot }, { where: { userId: mention.id } })
+                            .then(function () {
+                            // New Embed
+                            var embed = new discord_js_1.MessageEmbed()
+                                .setAuthor(config_json_1.author_name)
+                                .setColor(config_json_1.economy_color)
+                                .setTitle("Transazione Eseguita")
+                                .setDescription("Saldo " + mention.username + ": " + user.saldo + " ----> " + tot);
+                            // Send embed
+                            mgs.channel.send(embed);
+                        })
+                            .catch(function () {
+                            //
+                            errorMGS_1.default(mgs, "Internal Error: 500");
+                        })];
+                case 2:
+                    // Add Money
+                    _b.sent();
+                    return [2 /*return*/];
+            }
         });
     });
 }
-// Export Command
-exports.default = pong;
+exports.default = addMoney;

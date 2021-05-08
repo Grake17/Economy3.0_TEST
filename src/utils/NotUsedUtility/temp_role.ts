@@ -5,9 +5,9 @@
 // Import Moment
 import moment from "moment";
 // Import Tables
-import tables from "../db/table_interface";
+import tables from "../../db/table_interface";
 // Import MGS Error
-import errorMGS from "./errorMGS";
+import errorMGS from "../errorMGS";
 
 // Export Function
 export default async function addTempRole(

@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Command Test
+// GetDate Function
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -42,17 +42,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var temp_role_1 = __importDefault(require("../../utils/NotUsedUtility/temp_role"));
-var config_json_1 = require("../../config.json");
-// Export Module
-function pong(mgs, table) {
+// Import Moment
+var moment_1 = __importDefault(require("moment"));
+// Export Date
+function getDate(time) {
     return __awaiter(this, void 0, void 0, function () {
+        var date_now, date_lease;
         return __generator(this, function (_a) {
-            temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, 730, table).then(function (result) { return mgs.channel.send(result + 1); }).catch(function (result_error) { return mgs.channel.send(result_error); });
-            console.log("ciao");
-            return [2 /*return*/];
+            date_now = moment_1.default().utc(true).toDate();
+            date_lease = moment_1.default().utc(true).add(time, "hours").toDate();
+            // Return Info
+            return [2 /*return*/, [date_now, date_lease]];
         });
     });
 }
-// Export Command
-exports.default = pong;
+exports.default = getDate;

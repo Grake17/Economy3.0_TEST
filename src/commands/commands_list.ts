@@ -16,6 +16,7 @@ import pay from './economy_command/pay'; // Import Pay
 import portafoglio from './economy_command/portafoglio'; // Import Portafoglio
 import registra from './economy_command/registra'; // Import Registra
 import registragt from './economy_command/registragt'; // Import RegistraGT
+import addMoney from './admin_command/addMoney'; // Import AddMoney 
 
 
 // Create Commands List
@@ -23,12 +24,13 @@ const command_list: Record<string, ((mgs : Message, table: tables, args: string[
   pong: pong,
   portafoglio: portafoglio,
   registragt: registragt,
-  pay: pay,
+  pay: pay, 
   classificamembri: member_leaderbord,
   registra: registra,
   deposita: deposita,
   giveaway: giveaway,
-  assistenza: assistenza
+  assistenza: assistenza,
+  add: addMoney
 }
 
 // Exports

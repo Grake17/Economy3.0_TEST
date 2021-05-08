@@ -2,16 +2,13 @@
 // User Attribute
 // ===================================================
 
-// Import Sequelize
-import * as Sequelize from "sequelize";
-
 // User Interface
 export default interface User {
   userId: string;
   gamerTag?: string;
   guest?: boolean;
   ciurmaId?: string;
-  saldo?: number;
+  saldo?: number,  
   saldoDepositatoTot?: number;
   saldoDepositatoPar?: number;
   guadagnoMensile?: number;

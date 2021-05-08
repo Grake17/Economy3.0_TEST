@@ -16,6 +16,7 @@ var pay_1 = __importDefault(require("./economy_command/pay")); // Import Pay
 var portafoglio_1 = __importDefault(require("./economy_command/portafoglio")); // Import Portafoglio
 var registra_1 = __importDefault(require("./economy_command/registra")); // Import Registra
 var registragt_1 = __importDefault(require("./economy_command/registragt")); // Import RegistraGT
+var addMoney_1 = __importDefault(require("./admin_command/addMoney")); // Import AddMoney 
 // Create Commands List
 var command_list = {
     pong: pong_1.default,
@@ -26,7 +27,8 @@ var command_list = {
     registra: registra_1.default,
     deposita: deposita_1.default,
     giveaway: giveaway_1.default,
-    assistenza: assistenza_1.default
+    assistenza: assistenza_1.default,
+    add: addMoney_1.default
 };
 // Exports
 exports.default = command_list;

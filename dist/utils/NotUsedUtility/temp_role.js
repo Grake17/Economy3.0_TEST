@@ -1,6 +1,6 @@
 "use strict";
 // ===================================================
-// Command Test
+// Temp Role Function
 // ===================================================
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -42,17 +42,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var temp_role_1 = __importDefault(require("../../utils/NotUsedUtility/temp_role"));
-var config_json_1 = require("../../config.json");
-// Export Module
-function pong(mgs, table) {
+// Import Moment
+var moment_1 = __importDefault(require("moment"));
+// Export Function
+function addTempRole(user_id, role_id, time, table) {
     return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
         return __generator(this, function (_a) {
-            temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, 730, table).then(function (result) { return mgs.channel.send(result + 1); }).catch(function (result_error) { return mgs.channel.send(result_error); });
-            console.log("ciao");
-            return [2 /*return*/];
+            // Promise for error
+            return [2 /*return*/, new Promise(function (resolve, rejects) { return __awaiter(_this, void 0, void 0, function () {
+                    var user_test, date_now, date_lease;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, table.temp_roles_table.findOne({
+                                    where: { UserID: user_id, RoleID: role_id },
+                                })];
+                            case 1:
+                                user_test = _a.sent();
+                                if (user_test)
+                                    return [2 /*return*/, rejects("Utente già assegnato al ruolo")];
+                                date_now = moment_1.default().utc(true).toDate();
+                                date_lease = moment_1.default()
+                                    .utc(true)
+                                    .add(time, "hours")
+                                    .toDate();
+                                return [4 /*yield*/, table.temp_roles_table.create({
+                                        UserID: user_id,
+                                        RoleID: role_id,
+                                        TimeAdd: date_now,
+                                        TimeLease: date_lease,
+                                    }).then(function () { return __awaiter(_this, void 0, void 0, function () {
+                                        return __generator(this, function (_a) {
+                                            // Resolve Promise
+                                            return [2 /*return*/, resolve("Ruolo aggiunto con successo")];
+                                        });
+                                    }); }).catch(function (err) {
+                                        console.log(err);
+                                        return rejects("Error during createDB");
+                                    })];
+                            case 2:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                }); })];
         });
     });
 }
-// Export Command
-exports.default = pong;
+exports.default = addTempRole;

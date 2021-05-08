@@ -50,13 +50,16 @@ var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 var getUserDB_1 = __importDefault(require("../../utils/User_Utility/getUserDB"));
 // Import config
 var config_json_1 = require("../../config.json");
-// Import Temp Role
-var temp_role_1 = __importDefault(require("../../utils/temp_role"));
+// Import Sequelize
+var sequelize_1 = __importDefault(require("../../db/sequelize"));
+// Import GetDate
+var getDate_1 = __importDefault(require("../../utils/getDate"));
 // Export Function
 function giveaway(mgs, table) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
-        var user;
+        var user, user_test, sequelize, date, t;
+        var _this = this;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0: return [4 /*yield*/, getUserDB_1.default(mgs.author.id, table)];
@@ -71,30 +74,64 @@ function giveaway(mgs, table) {
                     // Check Roles
                     if ((_c = (_b = mgs.guild) === null || _b === void 0 ? void 0 : _b.members.cache.get(mgs.author.id)) === null || _c === void 0 ? void 0 : _c.roles.cache.get(config_json_1.roles.role_giveaway))
                         return [2 /*return*/, errorMGS_1.default(mgs, "Sei già iscritto al giveaway!")];
+                    return [4 /*yield*/, table.temp_roles_table.findOne({
+                            where: { UserID: mgs.author.id, RoleID: config_json_1.roles.role_giveaway },
+                        })];
+                case 2:
+                    user_test = _d.sent();
+                    if (user_test)
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Utente già assegnato al ruolo")];
+                    return [4 /*yield*/, sequelize_1.default()];
+                case 3:
+                    sequelize = _d.sent();
+                    // Check Sequelize
+                    if (!sequelize)
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Error Sequelize ")];
+                    return [4 /*yield*/, getDate_1.default(1)];
+                case 4:
+                    date = _d.sent();
+                    return [4 /*yield*/, sequelize.transaction()];
+                case 5:
+                    t = _d.sent();
                     // Make Payment
-                    table.user_table
-                        .update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id } })
-                        .then(function () {
-                        // Add Temp Roles
-                        temp_role_1.default(mgs.author.id, config_json_1.roles.role_giveaway, 730, table)
-                            .then(function (resolve) {
-                            // Send Embed
-                            var embed = new discord_js_1.MessageEmbed()
-                                .setAuthor(config_json_1.author_name)
-                                .setColor(config_json_1.economy_color)
-                                .setTitle("Iscritto al Giveaway")
-                                .setDescription(mgs.author.username + " sei stato iscritto con successo all'estrazione!");
-                            // Send Message
-                            mgs.channel.send(embed);
-                        })
-                            .catch(function (rejects) {
-                            // Error MGS
-                            errorMGS_1.default(mgs, rejects);
+                    return [4 /*yield*/, table.user_table.update({ saldo: user.saldo - 50000 }, { where: { userId: mgs.author.id }, transaction: t })];
+                case 6:
+                    // Make Payment
+                    _d.sent();
+                    // Assign Role
+                    return [4 /*yield*/, table.temp_roles_table.create({
+                            UserID: mgs.author.id,
+                            RoleID: config_json_1.roles.role_giveaway,
+                            TimeAdd: date[0],
+                            TimeLease: date[1],
+                        }, { transaction: t })];
+                case 7:
+                    // Assign Role
+                    _d.sent();
+                    t.commit().then(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var embed;
+                        var _a, _b;
+                        return __generator(this, function (_c) {
+                            switch (_c.label) {
+                                case 0: 
+                                // Add Roles To Users
+                                return [4 /*yield*/, ((_b = (_a = mgs.guild) === null || _a === void 0 ? void 0 : _a.members.cache.get(mgs.author.id)) === null || _b === void 0 ? void 0 : _b.roles.add(config_json_1.roles.role_giveaway))];
+                                case 1:
+                                    // Add Roles To Users
+                                    _c.sent();
+                                    embed = new discord_js_1.MessageEmbed()
+                                        .setAuthor(config_json_1.author_name)
+                                        .setColor(config_json_1.economy_color)
+                                        .setTitle("Iscritto al Giveaway")
+                                        .setDescription(mgs.author.username + " sei stato iscritto con successo all'estrazione!");
+                                    // Send Message
+                                    mgs.channel.send(embed);
+                                    return [2 /*return*/];
+                            }
                         });
-                    })
-                        .catch(function () {
+                    }); }).catch(function (err) {
                         // Error MGS
-                        errorMGS_1.default(mgs, "500");
+                        errorMGS_1.default(mgs, "Internal Error: 500");
                     });
                     return [2 /*return*/];
             }

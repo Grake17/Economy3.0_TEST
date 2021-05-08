@@ -6,7 +6,7 @@
 import { Message, MessageEmbed } from 'discord.js';
 // Import Tables Interface
 import tables from '../../db/table_interface';
-import addTempRole from '../../utils/temp_role';
+import addTempRole from '../../utils/NotUsedUtility/temp_role';
 import { roles } from "../../config.json";
 
 // Export Module
