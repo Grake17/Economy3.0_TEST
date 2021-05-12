@@ -50,6 +50,7 @@ var discord_js_1 = require("discord.js");
 var errorMGS_1 = __importDefault(require("../../utils/errorMGS"));
 // Import Chekc Permission
 var checkPermisison_1 = __importDefault(require("../../utils/checkPermisison"));
+var sequelize_1 = __importDefault(require("../../db/sequelize"));
 // Export Command
 function assistenza(mgs, table, args) {
     return __awaiter(this, void 0, void 0, function () {
@@ -65,6 +66,8 @@ function assistenza(mgs, table, args) {
                 case "case":
                     assistenza_case(mgs, table, args);
                     break;
+                case "pay":
+                    assistenza_pay(mgs, table, args);
                 default:
                     errorMGS_1.default(mgs, "Comando Invalido!");
             }
@@ -140,7 +143,7 @@ function assistenza_list(mgs, table, args) {
                 var embed = new discord_js_1.MessageEmbed()
                     .setAuthor(config_json_1.author_name)
                     .setColor(config_json_1.economy_color)
-                    .setDescription("Lista dei casi aperti");
+                    .setDescription("Numero Casi aperti: " + cases.length);
                 cases.map(function (elment) {
                     // Get Array Element
                     var data = elment.get();
@@ -202,8 +205,67 @@ function assistenza_case(mgs, table, args) {
 // Assistenza Resolve
 function assistenza_pay(mgs, table, args) {
     return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
         return __generator(this, function (_a) {
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    // Check Channel
+                    if (config_json_1.channels.staff_channel !== mgs.channel.id)
+                        return [2 /*return*/];
+                    // Check Permissions
+                    if (!checkPermisison_1.default(mgs.author.id))
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Ei Ei EI Ei eI ei")];
+                    // Check Specific case
+                    if (!args[3])
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Devi specificare l'ID di un caso")];
+                    // Check Money
+                    if (!Number(args[4]))
+                        return [2 /*return*/, errorMGS_1.default(mgs, "Errore nella sintassi")];
+                    // Get Case
+                    return [4 /*yield*/, table.cases_table.findOne({ where: { caseid: args[3] } }).then(function (caso) { return __awaiter(_this, void 0, void 0, function () {
+                            var data, users, sequelize;
+                            var _a, _b;
+                            return __generator(this, function (_c) {
+                                switch (_c.label) {
+                                    case 0:
+                                        // Check IF null
+                                        if (caso == null)
+                                            return [2 /*return*/, errorMGS_1.default(mgs, "Non ho trovato nessun caso con quell'ID")];
+                                        data = caso.get();
+                                        // Case Already Resolve
+                                        if (data.state !== "PENDING")
+                                            return [2 /*return*/, errorMGS_1.default(mgs, "Il caso è già stato risolto")];
+                                        users = [
+                                            data.caseauthorid
+                                        ];
+                                        // Add Tags
+                                        if (((_a = data.taggedusers) === null || _a === void 0 ? void 0 : _a.length) != 0)
+                                            (_b = data.taggedusers) === null || _b === void 0 ? void 0 : _b.split(",").map(function (id) { return users.push(id); });
+                                        return [4 /*yield*/, sequelize_1.default()];
+                                    case 1:
+                                        sequelize = _c.sent();
+                                        // Sequelize Transaction
+                                        sequelize === null || sequelize === void 0 ? void 0 : sequelize.transaction().then(function (t) {
+                                            // Add Money to users
+                                            users.map(function (id) {
+                                                // Make Transacion
+                                                table.user_table.update({ saldo: Number(args[4]) }, { where: { userId: id }, transaction: t });
+                                            });
+                                            // Update Case
+                                            table.cases_table.update({ state: "" }, { where: { caseid: data.caseid }, transaction: t });
+                                        });
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); }).catch(function (err) {
+                            // Error MGS
+                            errorMGS_1.default(mgs, "Error: 500");
+                        })];
+                case 1:
+                    // Get Case
+                    _a.sent();
+                    return [2 /*return*/];
+            }
         });
     });
 }

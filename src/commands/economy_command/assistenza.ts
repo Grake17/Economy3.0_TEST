@@ -12,6 +12,7 @@ import tables from "../../db/table_interface";
 import errorMGS from "../../utils/errorMGS";
 // Import Chekc Permission
 import checkPermission from "../../utils/checkPermisison";
+import imp_seq from "../../db/sequelize";
 
 // Export Command
 export default async function assistenza(
@@ -30,6 +31,8 @@ export default async function assistenza(
     case "case":
       assistenza_case(mgs, table, args);
       break;
+    case "pay":
+      assistenza_pay(mgs, table, args)
     default:
       errorMGS(mgs, "Comando Invalido!");
   }
@@ -95,7 +98,7 @@ async function assistenza_list(mgs: Message, table: tables, args: string[]) {
     const embed = new MessageEmbed()
       .setAuthor(author_name)
       .setColor(economy_color)
-      .setDescription("Lista dei casi aperti");
+      .setDescription(`Numero Casi aperti: ${cases.length}`);
     cases.map((elment) => {
       // Get Array Element
       const data = elment.get();
@@ -142,7 +145,7 @@ async function assistenza_case(mgs: Message, table: tables, args: string[]) {
       embed.addField(
         "Tagged Users",
         `${variables.taggedusers?.split(",").map((user) => `<@!${user}>`)}`
-      );    
+      );
     // Set Descripion
     embed.setDescription(content);
     // Send Emebd
@@ -152,5 +155,45 @@ async function assistenza_case(mgs: Message, table: tables, args: string[]) {
 
 // Assistenza Resolve
 async function assistenza_pay(mgs: Message, table: tables, args: string[]) {
-    
+  // Check Channel
+  if (channels.staff_channel !== mgs.channel.id) return;
+  // Check Permissions
+  if (!checkPermission(mgs.author.id)) return errorMGS(mgs, "Ei Ei EI Ei eI ei");
+  // Check Specific case
+  if (!args[3]) return errorMGS(mgs, "Devi specificare l'ID di un caso");
+  // Check Money
+  if (!Number(args[4])) return errorMGS(mgs, "Errore nella sintassi");
+  // Get Case
+  await table.cases_table.findOne({ where: { caseid: args[3] } }).then(async (caso) => {
+    // Check IF null
+    if (caso == null) return errorMGS(mgs, "Non ho trovato nessun caso con quell'ID");
+    // Get Case Data
+    const data = caso.get();
+    // Case Already Resolve
+    if (data.state !== "PENDING") return errorMGS(mgs, "Il caso è già stato risolto");
+    // Users Array
+    const users = [
+      data.caseauthorid
+    ]
+    // Add Tags
+    if (data.taggedusers?.length != 0)
+      data.taggedusers?.split(",").map(id => users.push(id));
+
+    // Pay Users
+    const sequelize = await imp_seq();
+    // Sequelize Transaction
+    sequelize?.transaction().then(t => {
+      // Add Money to users
+      users.map(id => {
+        // Make Transacion
+        table.user_table.update({ saldo: Number(args[4]) }, { where: { userId: id }, transaction: t });
+      });
+      // Update Case
+      table.cases_table.update({ state: "" }, { where: { caseid: data.caseid }, transaction: t });
+    });
+  }).catch(err => {
+    // Error MGS
+    errorMGS(mgs, "Error: 500");
+  })
+
 }
