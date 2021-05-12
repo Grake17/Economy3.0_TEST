@@ -6,6 +6,7 @@
 import crews from "./models/Crews/crew_model";
 import users from "./models/Users/user_model";
 import temp_roles from "./models/Temp_Roles/temp_roles_model";
+import cases_model from "./models/Cases/cases_model";
 
 // Import Sequelize
 import imp_seq from "./sequelize";
@@ -38,7 +39,7 @@ const load_db = async function (): Promise<Table> {
     //   }
     // );
     const sequelize = await imp_seq();
-    if(!sequelize) return rejects();
+    if (!sequelize) return rejects();
     // Connect to DB
     sequelize
       .authenticate()
@@ -48,12 +49,20 @@ const load_db = async function (): Promise<Table> {
         // Define Model
         const crew_table = sequelize.define(crews.name, crews.model);
         const user_table = sequelize.define(users.name, users.model);
-        const temp_roles_table = sequelize.define(temp_roles.name, temp_roles.model);
+        const temp_roles_table = sequelize.define(
+          temp_roles.name,
+          temp_roles.model
+        );
+        const cases_table = sequelize.define(
+          cases_model.name,
+          cases_model.model
+        );
         // Export Table
         const table: Table = {
           crew_table: crew_table,
           user_table: user_table,
-          temp_roles_table : temp_roles_table
+          temp_roles_table: temp_roles_table,
+          cases_table: cases_table,
         };
         // Resolve Sequelize
         resolve(table);

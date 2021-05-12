@@ -46,6 +46,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var crew_model_1 = __importDefault(require("./models/Crews/crew_model"));
 var user_model_1 = __importDefault(require("./models/Users/user_model"));
 var temp_roles_model_1 = __importDefault(require("./models/Temp_Roles/temp_roles_model"));
+var cases_model_1 = __importDefault(require("./models/Cases/cases_model"));
 // Import Sequelize
 var sequelize_1 = __importDefault(require("./sequelize"));
 // Function for load DB
@@ -73,11 +74,13 @@ var load_db = function () {
                                     var crew_table = sequelize.define(crew_model_1.default.name, crew_model_1.default.model);
                                     var user_table = sequelize.define(user_model_1.default.name, user_model_1.default.model);
                                     var temp_roles_table = sequelize.define(temp_roles_model_1.default.name, temp_roles_model_1.default.model);
+                                    var cases_table = sequelize.define(cases_model_1.default.name, cases_model_1.default.model);
                                     // Export Table
                                     var table = {
                                         crew_table: crew_table,
                                         user_table: user_table,
-                                        temp_roles_table: temp_roles_table
+                                        temp_roles_table: temp_roles_table,
+                                        cases_table: cases_table,
                                     };
                                     // Resolve Sequelize
                                     resolve(table);

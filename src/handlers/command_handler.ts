@@ -5,7 +5,7 @@
 // Import
 import { Message } from "discord.js";
 // Import Config File
-import * as config from "../config.json";
+import { channels } from "../config.json";
 // Import Commands
 import command_list from "../commands/commands_list";
 // Import Interface Table
@@ -18,7 +18,7 @@ export default async function commandHandler(mgs: Message, env, table: tables) {
   // Try Catch For Error
   try {
     // Check Channel
-    if (mgs.channel.id !== config.channel_mail) return;
+    if (!(JSON.stringify(channels).includes(mgs.channel.id))) return;
 
     // Extract command
     const args = mgs.content.split(" ");

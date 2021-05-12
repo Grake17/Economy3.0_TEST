@@ -1,10 +1,18 @@
 {
-    "channel_mail": "817333103416180738",
     "economy_color": "0xFF9900",
     "author_name": "Economy v9.17",
     "server_id": "404295489010532372",
     "roles": {
         "role_giveaway": "838504670116577281"
     },
-    "role_giveaway": "838504670116577281"
+    "channels": {
+        "main_channel": "817333103416180738",
+        "staff_channel": "841253517457096734"
+    },
+    "admins": {
+        "Kirito": "284329971466633217",
+        "Ivan": "",
+        "Kri": "454672604268331042",
+        "Grake": "275029345200766977"
+    }
 }
